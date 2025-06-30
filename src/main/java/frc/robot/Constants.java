@@ -148,6 +148,41 @@ public class Constants {
     public static final MomentOfInertia kRobotMOI = KilogramSquareMeters.of(6.5);
   }
 
+  public static final class ShooterConstants {
+    public static final double kIdleVoltage = 0.0;
+    public static final double kTopRPS = 0.0;
+    public static final double kBottomRPS = 0.0;
+    public static final double kRejectingVoltage = 0.0;
+    public static final double kTopAmpVelocity = 0.0;
+    public static final double kBottomAmpVelocity = 0.0;
+
+    public static final LoggedTunableNumber kShooterP = new LoggedTunableNumber("Shooter/P", 0.0);
+    public static final LoggedTunableNumber kShooterI = new LoggedTunableNumber("Shooter/I", 0.0);
+    public static final LoggedTunableNumber kShooterD = new LoggedTunableNumber("Shooter/D", 0.0);
+
+    public static final LoggedTunableNumber kTopKs = new LoggedTunableNumber("Shooter/TopKs", 0.0);
+    public static final LoggedTunableNumber kTopKv = new LoggedTunableNumber("Shooter/TopKv", 0.0);
+    public static final LoggedTunableNumber kBottomKs =
+        new LoggedTunableNumber("Shooter/BottomKs", 0.0);
+    public static final LoggedTunableNumber kBottomKv =
+        new LoggedTunableNumber("Shooter/BottomKv", 0.0);
+  }
+
+  public static final class IndexerConstants {
+    public static final double kIdleVoltage = 0;
+    public static final double kIntakingVoltage = 0;
+    public static final double kIndexingVoltage = 0;
+    public static final double kReversingVoltage = 0;
+    public static final double kShootingVoltage = 0;
+    public static final double kVomitVoltage = 0;
+  }
+
+  public static final class IntakeConstants {
+    public static final double kIdleVoltage = 0;
+    public static final double kIntakingVoltage = 0;
+    public static final double kVomitVoltage = 0;
+  }
+
   public static final class Ports {
     public static final int kFrontLeftDrive = 0;
     public static final int kFrontLeftTurn = 1;
