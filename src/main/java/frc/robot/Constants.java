@@ -3,11 +3,14 @@ package frc.robot;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Pounds;
 
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Mass;
 import edu.wpi.first.units.measure.MomentOfInertia;
@@ -29,6 +32,8 @@ public class Constants {
   public static final boolean kTuningMode = true;
 
   public static final class DriveConstants {
+    public static final MotorType kMotorType = MotorType.kBrushless;
+
     public static final double kMaxLinearSpeed = 4.5; // meters per second
     // Tommy - this constant is unused right now, see my comment in driveToPointPeriodic
     public static final double kMaxDriveToPointSpeed = 3.6;
@@ -156,9 +161,12 @@ public class Constants {
     public static final double kTopAmpVelocity = 0.0;
     public static final double kBottomAmpVelocity = 0.0;
 
-    public static final LoggedTunableNumber kShooterP = new LoggedTunableNumber("Shooter/P", 0.0);
-    public static final LoggedTunableNumber kShooterI = new LoggedTunableNumber("Shooter/I", 0.0);
-    public static final LoggedTunableNumber kShooterD = new LoggedTunableNumber("Shooter/D", 0.0);
+    public static final LoggedTunableNumber kTopShooterP = new LoggedTunableNumber("Shooter/TopP", 0.0);
+    public static final LoggedTunableNumber kTopShooterI = new LoggedTunableNumber("Shooter/TopI", 0.0);
+    public static final LoggedTunableNumber kTopShooterD = new LoggedTunableNumber("Shooter/TopD", 0.0);
+    public static final LoggedTunableNumber kBottomShooterP = new LoggedTunableNumber("Shooter/BottomP", 0.0);
+    public static final LoggedTunableNumber kBottomShooterI = new LoggedTunableNumber("Shooter/BottomI", 0.0);
+    public static final LoggedTunableNumber kBottomShooterD = new LoggedTunableNumber("Shooter/BottomD", 0.0);
 
     public static final LoggedTunableNumber kTopKs = new LoggedTunableNumber("Shooter/TopKs", 0.0);
     public static final LoggedTunableNumber kTopKv = new LoggedTunableNumber("Shooter/TopKv", 0.0);
@@ -166,6 +174,12 @@ public class Constants {
         new LoggedTunableNumber("Shooter/BottomKs", 0.0);
     public static final LoggedTunableNumber kBottomKv =
         new LoggedTunableNumber("Shooter/BottomKv", 0.0);
+
+    // sim
+    public static final DCMotor kTopDCMotor = DCMotor.getNEO(1);
+    public static final DCMotor kBottomDCMotor = DCMotor.getNEO(1);
+    public static final double kSimMOI = 0.0;
+    public static final double kSimGearing = 0.0;
   }
 
   public static final class IndexerConstants {
@@ -175,12 +189,22 @@ public class Constants {
     public static final double kReversingVoltage = 0;
     public static final double kShootingVoltage = 0;
     public static final double kVomitVoltage = 0;
+
+    // sim 
+    public static final DCMotor kDCMotor = DCMotor.getNEO(1);
+    public static final double kSimMOI = 0.0;
+    public static final double kSimGearing = 0.0;
   }
 
   public static final class IntakeConstants {
     public static final double kIdleVoltage = 0;
     public static final double kIntakingVoltage = 0;
     public static final double kVomitVoltage = 0;
+
+    //sim
+    public static final DCMotor kDCMotor = DCMotor.getNEO(1);
+    public static final double kSimMOI = 0.0;
+    public static final double kSimGearing = 0.0;
   }
 
   public static final class Ports {
@@ -199,6 +223,15 @@ public class Constants {
     public static final int kBackRightDrive = 9;
     public static final int kBackRightTurn = 10;
     public static final int kBackRightCancoder = 11;
+
+    public static final int kIndexer = 0;
+    public static final int kPhotoelectric1 = 0;
+    public static final int kPhotoelectric2 = 0;
+
+    public static final int kIntake = 0;
+
+    public static final int kTopShooter = 0;
+    public static final int kBottomShooter = 0;
 
     public static final int kPigeon = 22;
 

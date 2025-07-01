@@ -70,18 +70,26 @@ public class Shooter extends SubsystemBase {
         hashCode(),
         () -> {
           m_topController.setPID(
-              ShooterConstants.kShooterP.getAsDouble(),
-              ShooterConstants.kShooterI.getAsDouble(),
-              ShooterConstants.kShooterD.getAsDouble());
-          m_bottomController.setPID(
-              ShooterConstants.kShooterP.getAsDouble(),
-              ShooterConstants.kShooterI.getAsDouble(),
-              ShooterConstants.kShooterD.getAsDouble());
+              ShooterConstants.kTopShooterP.getAsDouble(),
+              ShooterConstants.kTopShooterI.getAsDouble(),
+              ShooterConstants.kTopShooterD.getAsDouble());
         },
-        ShooterConstants.kShooterP,
-        ShooterConstants.kShooterI,
-        ShooterConstants.kShooterD);
+        ShooterConstants.kTopShooterP,
+        ShooterConstants.kTopShooterI,
+        ShooterConstants.kTopShooterD);
 
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> {
+          m_bottomController.setPID(
+              ShooterConstants.kBottomShooterP.getAsDouble(),
+              ShooterConstants.kBottomShooterI.getAsDouble(),
+              ShooterConstants.kBottomShooterD.getAsDouble());
+        },
+        ShooterConstants.kBottomShooterP,
+        ShooterConstants.kBottomShooterI,
+        ShooterConstants.kBottomShooterD);
+        
     LoggedTunableNumber.ifChanged(
         hashCode(),
         () -> {
