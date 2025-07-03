@@ -21,10 +21,10 @@ import frc.robot.subsystems.drive.ModuleIOReplay;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.Indexer.IndexerState;
 import frc.robot.subsystems.indexer.IndexerIONeo;
 import frc.robot.subsystems.indexer.IndexerIOReplay;
 import frc.robot.subsystems.indexer.IndexerIOSim;
-import frc.robot.subsystems.indexer.Indexer.IndexerState;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIONeo;
 import frc.robot.subsystems.intake.IntakeIOReplay;
@@ -154,18 +154,41 @@ public class RobotContainer {
     m_drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             m_drive, m_controls::getForward, m_controls::getStrafe, m_controls::getTurn, false));
-    m_controls.intake().onTrue(Commands.runOnce(() -> {
-      m_state.updateAction(RobotAction.kIntake);
-    }));
-    m_controls.rev().onTrue(Commands.runOnce(() -> {
-      m_state.updateAction(RobotAction.kRevving);
-    }));
-    m_controls.index().onTrue(Commands.runOnce(() -> {
-      m_indexer.updateState(IndexerState.kIndexing);
-    }));
-    m_controls.eject().onTrue(Commands.runOnce(() -> {
-      m_state.updateAction(RobotAction.kVomitting);
-    }));
+    m_controls
+        .intake()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  m_state.updateAction(RobotAction.kIntake);
+                }));
+    m_controls
+        .rev()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  m_state.updateAction(RobotAction.kRevving);
+                }));
+    m_controls
+        .index()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  m_indexer.updateState(IndexerState.kIndexing);
+                }));
+    m_controls
+        .eject()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  m_state.updateAction(RobotAction.kVomitting);
+                }));
+    m_controls
+        .amp()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  m_state.updateAction(RobotAction.kAmp);
+                }));
   }
 
   public Command getAutonomousCommand() {

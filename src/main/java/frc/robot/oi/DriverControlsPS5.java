@@ -37,7 +37,7 @@ public class DriverControlsPS5 implements DriverControls {
 
   @Override
   public Trigger index() {
-    return m_controller.R1();    
+    return m_controller.R1();
   }
 
   @Override

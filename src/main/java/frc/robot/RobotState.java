@@ -83,23 +83,14 @@ public class RobotState {
     Logger.recordOutput("PeriodicTime/RobotState", (HALUtil.getFPGATime() - start) / 1000.0);
   }
 
-  //the only thing im still confused on how to do are these periodics
-  public void revvingPeriodic() {
-   
+  // the only thing im still confused on how to do are these periodics
+  public void revvingPeriodic() {}
 
-  }
+  public void alignShootingPeriodic() {}
 
-  public void alignShootingPeriodic() {
+  public void autoShootingPeriodic() {}
 
-  }
-
-  public void autoShootingPeriodic() {
-
-  }
-
-  public void ampPeriodic(){
-
-  }
+  public void ampPeriodic() {}
 
   public void updateAction(RobotAction action) {
     switch (action) {
