@@ -8,8 +8,12 @@ public class IntakeIOSim implements IntakeIO {
   private DCMotorSim m_sim;
   private double m_voltage;
 
-  public IntakeIOSim(){
-    m_sim = new DCMotorSim(LinearSystemId.createDCMotorSystem(IntakeConstants.kDCMotor, IntakeConstants.kSimMOI, IntakeConstants.kSimGearing), IntakeConstants.kDCMotor);
+  public IntakeIOSim() {
+    m_sim =
+        new DCMotorSim(
+            LinearSystemId.createDCMotorSystem(
+                IntakeConstants.kDCMotor, IntakeConstants.kSimMOI, IntakeConstants.kSimGearing),
+            IntakeConstants.kDCMotor);
     m_voltage = 0.0;
   }
 
@@ -26,6 +30,4 @@ public class IntakeIOSim implements IntakeIO {
   public void setVoltage(double voltage) {
     m_voltage = voltage;
   }
-
-  
 }

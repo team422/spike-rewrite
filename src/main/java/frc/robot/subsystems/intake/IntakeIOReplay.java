@@ -12,4 +12,5 @@ public class IntakeIOReplay implements IntakeIO {
   public void setVoltage(double voltage) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'setVoltage'");
-  }}
+  }
+}

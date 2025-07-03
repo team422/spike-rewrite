@@ -1,6 +1,6 @@
 package frc.robot.subsystems.shooter;
 
-public class ShooterIOReplay implements ShooterIO{
+public class ShooterIOReplay implements ShooterIO {
 
   @Override
   public void setVoltage(double topVoltage, double bottomVoltage) {
@@ -12,4 +12,5 @@ public class ShooterIOReplay implements ShooterIO{
   public void updateInputs(ShooterInputs inputs) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'updateInputs'");
-  }}
+  }
+}

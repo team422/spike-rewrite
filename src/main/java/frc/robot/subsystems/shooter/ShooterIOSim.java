@@ -10,9 +10,21 @@ public class ShooterIOSim implements ShooterIO {
   private double m_topVoltage;
   private double m_bottomVoltage;
 
-  public ShooterIOSim(){
-    m_topSim = new FlywheelSim(LinearSystemId.createFlywheelSystem(ShooterConstants.kTopDCMotor, ShooterConstants.kSimMOI, ShooterConstants.kSimGearing), ShooterConstants.kTopDCMotor);
-    m_bottomSim = new FlywheelSim(LinearSystemId.createFlywheelSystem(ShooterConstants.kBottomDCMotor, ShooterConstants.kSimMOI, ShooterConstants.kSimGearing), ShooterConstants.kBottomDCMotor);
+  public ShooterIOSim() {
+    m_topSim =
+        new FlywheelSim(
+            LinearSystemId.createFlywheelSystem(
+                ShooterConstants.kTopDCMotor,
+                ShooterConstants.kSimMOI,
+                ShooterConstants.kSimGearing),
+            ShooterConstants.kTopDCMotor);
+    m_bottomSim =
+        new FlywheelSim(
+            LinearSystemId.createFlywheelSystem(
+                ShooterConstants.kBottomDCMotor,
+                ShooterConstants.kSimMOI,
+                ShooterConstants.kSimGearing),
+            ShooterConstants.kBottomDCMotor);
     m_topVoltage = 0.0;
     m_bottomVoltage = 0.0;
   }
@@ -35,6 +47,4 @@ public class ShooterIOSim implements ShooterIO {
     m_topVoltage = topVoltage;
     m_bottomVoltage = bottomVoltage;
   }
-
-  
 }

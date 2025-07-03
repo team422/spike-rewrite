@@ -18,7 +18,7 @@ public class Shooter extends SubsystemBase {
   private SimpleMotorFeedforward m_topFF;
   private SimpleMotorFeedforward m_bottomFF;
 
-  private enum ShooterState {
+  public enum ShooterState {
     kIdle,
     kRevving,
     kRejecting,
@@ -89,7 +89,7 @@ public class Shooter extends SubsystemBase {
         ShooterConstants.kBottomShooterP,
         ShooterConstants.kBottomShooterI,
         ShooterConstants.kBottomShooterD);
-        
+
     LoggedTunableNumber.ifChanged(
         hashCode(),
         () -> {

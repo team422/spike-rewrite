@@ -12,14 +12,18 @@ public class IndexerIOSim implements IndexerIO {
   private DigitalInput m_sensor1;
   private DigitalInput m_sensor2;
 
-  public IndexerIOSim(){
-    m_sim = new DCMotorSim(LinearSystemId.createDCMotorSystem(IndexerConstants.kDCMotor, IndexerConstants.kSimMOI, IndexerConstants.kSimGearing), IndexerConstants.kDCMotor);
+  public IndexerIOSim() {
+    m_sim =
+        new DCMotorSim(
+            LinearSystemId.createDCMotorSystem(
+                IndexerConstants.kDCMotor, IndexerConstants.kSimMOI, IndexerConstants.kSimGearing),
+            IndexerConstants.kDCMotor);
     m_voltage = 0.0;
     m_sensor1 = new DigitalInput(Ports.kPhotoelectric1);
     m_sensor2 = new DigitalInput(Ports.kPhotoelectric2);
   }
 
-  public void updateInputs(IndexerInputs inputs){
+  public void updateInputs(IndexerInputs inputs) {
     m_sim.setInputVoltage(m_voltage);
     m_sim.update(.02);
 

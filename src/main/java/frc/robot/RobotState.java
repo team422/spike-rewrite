@@ -4,8 +4,11 @@ import edu.wpi.first.hal.HALUtil;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveProfiles;
 import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.Indexer.IndexerState;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Shooter.ShooterState;
 import frc.robot.util.SubsystemProfiles;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +21,6 @@ public class RobotState {
   private Indexer m_indexer;
   private Intake m_intake;
 
-  // TODO: do later gng
   public static enum RobotAction {
     kTeleopDefault,
     kIntake,
@@ -26,6 +28,7 @@ public class RobotState {
     kVomitting,
     kAlignShooting,
     kSubwooferShooting,
+    kAmp,
 
     kAutoDefault,
     kAutoShooting,
@@ -53,6 +56,7 @@ public class RobotState {
     periodicHash.put(RobotAction.kVomitting, () -> {});
     periodicHash.put(RobotAction.kAlignShooting, this::alignShootingPeriodic);
     periodicHash.put(RobotAction.kSubwooferShooting, () -> {});
+    periodicHash.put(RobotAction.kAmp, this::ampPeriodic);
 
     periodicHash.put(RobotAction.kAutoDefault, () -> {});
     periodicHash.put(RobotAction.kAutoShooting, this::autoShootingPeriodic);
@@ -79,41 +83,61 @@ public class RobotState {
     Logger.recordOutput("PeriodicTime/RobotState", (HALUtil.getFPGATime() - start) / 1000.0);
   }
 
-  public void revvingPeriodic(){
+  //the only thing im still confused on how to do are these periodics
+  public void revvingPeriodic() {
+   
 
   }
 
-  public void alignShootingPeriodic(){
+  public void alignShootingPeriodic() {
 
   }
 
-  public void autoShootingPeriodic(){
+  public void autoShootingPeriodic() {
+
+  }
+
+  public void ampPeriodic(){
 
   }
 
   public void updateAction(RobotAction action) {
-    // TODO: with more subsystems comes more responsibility
-    DriveProfiles driveProfiles = m_drive.getDefaultProfile();
-
     switch (action) {
       case kTeleopDefault:
       case kAutoDefault:
+        m_drive.updateProfile(DriveProfiles.kDefault);
+        m_indexer.updateState(IndexerState.kIdle);
+        m_intake.updateState(IntakeState.kIdle);
+        m_shooter.updateState(ShooterState.kIdle);
         break;
       case kAlignShooting:
-        break;
       case kAutoShooting:
+      case kSubwooferShooting:
+      case kRevving:
+        m_drive.updateProfile(DriveProfiles.kAutoAlign);
+        m_intake.updateState(IntakeState.kIdle);
+        m_shooter.updateState(ShooterState.kRevving);
         break;
       case kIntake:
-        break;
-      case kRevving:
-        break;
-      case kSubwooferShooting:
+        m_drive.updateProfile(DriveProfiles.kDefault);
+        m_intake.updateState(IntakeState.kIntaking);
+        m_indexer.updateState(IndexerState.kIntaking);
+        m_shooter.updateState(ShooterState.kIdle);
         break;
       case kVomitting:
+        m_drive.updateProfile(DriveProfiles.kDefault);
+        m_indexer.updateState(IndexerState.kVomitting);
+        m_intake.updateState(IntakeState.kVomit);
+        m_shooter.updateState(ShooterState.kRejecting);
+        break;
+      case kAmp:
+        m_drive.updateProfile(DriveProfiles.kDefault);
+        m_intake.updateState(IntakeState.kIdle);
+        m_shooter.updateState(ShooterState.kAmp);
         break;
     }
 
-    m_drive.updateProfile(driveProfiles);
+    m_profiles.setCurrentProfile(action);
   }
 
   public void setDefaultAction() {

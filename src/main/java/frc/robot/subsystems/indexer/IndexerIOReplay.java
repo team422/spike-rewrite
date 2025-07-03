@@ -18,4 +18,5 @@ public class IndexerIOReplay implements IndexerIO {
   public boolean hasPiece() {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'hasPiece'");
-  }}
+  }
+}
