@@ -54,18 +54,7 @@ public class Shooter extends SubsystemBase {
 
     m_profiles.getPeriodicFunction().run();
 
-    Logger.processInputs("Shooter/inputs", m_inputs);
-    Logger.recordOutput("Shooter/topVoltage", m_inputs.topVoltage);
-    Logger.recordOutput("Shooter/bottomVoltage", m_inputs.bottomVoltage);
-    Logger.recordOutput("Shooter/topVelocity", m_inputs.topVelocity);
-    Logger.recordOutput("Shooter/bottomVelocity", m_inputs.bottomVelocity);
-  }
-
-  public void idlePeriodic() {
-    m_io.setVoltage(ShooterConstants.kIdleVoltage, ShooterConstants.kIdleVoltage);
-  }
-
-  public void revvingPeriodic() {
+    Logger.processInputs("Shooter", m_inputs);
     LoggedTunableNumber.ifChanged(
         hashCode(),
         () -> {
@@ -107,23 +96,30 @@ public class Shooter extends SubsystemBase {
         },
         ShooterConstants.kBottomKs,
         ShooterConstants.kBottomKv);
+  }
 
+  public void idlePeriodic() {
+    m_io.setVoltage(ShooterConstants.kIdleVoltage.get(), ShooterConstants.kIdleVoltage.get());
+  }
+
+  public void revvingPeriodic() {
     double topVoltage =
-        m_topController.calculate(ShooterConstants.kTopRPS)
+        m_topController.calculate(ShooterConstants.kTopRPS.get())
             + m_topFF.calculate(m_topController.getSetpoint());
     double bottomVoltage =
-        m_bottomController.calculate(ShooterConstants.kBottomRPS)
+        m_bottomController.calculate(ShooterConstants.kBottomRPS.get())
             + m_bottomFF.calculate(m_bottomController.getSetpoint());
 
     m_io.setVoltage(topVoltage, bottomVoltage);
   }
 
   public void rejectingPeriodic() {
-    m_io.setVoltage(ShooterConstants.kRejectingVoltage, ShooterConstants.kRejectingVoltage);
+    m_io.setVoltage(
+        ShooterConstants.kRejectingVoltage.get(), ShooterConstants.kRejectingVoltage.get());
   }
 
   public void ampPeriodic() {
-    setVelocity(ShooterConstants.kTopAmpVelocity, ShooterConstants.kBottomAmpVelocity);
+    setVelocity(ShooterConstants.kTopAmpVelocity.get(), ShooterConstants.kBottomAmpVelocity.get());
     revvingPeriodic();
   }
 

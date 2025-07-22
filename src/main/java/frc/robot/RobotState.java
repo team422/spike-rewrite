@@ -24,7 +24,6 @@ public class RobotState {
   public static enum RobotAction {
     kTeleopDefault,
     kIntake,
-    kRevving,
     kVomitting,
     kAlignShooting,
     kSubwooferShooting,
@@ -52,7 +51,6 @@ public class RobotState {
 
     periodicHash.put(RobotAction.kTeleopDefault, () -> {});
     periodicHash.put(RobotAction.kIntake, () -> {});
-    periodicHash.put(RobotAction.kRevving, this::revvingPeriodic);
     periodicHash.put(RobotAction.kVomitting, () -> {});
     periodicHash.put(RobotAction.kAlignShooting, this::alignShootingPeriodic);
     periodicHash.put(RobotAction.kSubwooferShooting, () -> {});
@@ -84,8 +82,6 @@ public class RobotState {
   }
 
   // the only thing im still confused on how to do are these periodics
-  public void revvingPeriodic() {}
-
   public void alignShootingPeriodic() {}
 
   public void autoShootingPeriodic() {}
@@ -103,11 +99,10 @@ public class RobotState {
         break;
       case kAlignShooting:
       case kAutoShooting:
-      case kSubwooferShooting:
-      case kRevving:
         m_drive.updateProfile(DriveProfiles.kAutoAlign);
-        m_intake.updateState(IntakeState.kIdle);
+      case kSubwooferShooting:
         m_shooter.updateState(ShooterState.kRevving);
+        m_intake.updateState(IntakeState.kIdle);
         break;
       case kIntake:
         m_drive.updateProfile(DriveProfiles.kDefault);

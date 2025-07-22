@@ -267,14 +267,12 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   @Override
   public void setDrivePID(double kP, double kI, double kD) {
-    var configs = new ClosedLoopConfig().pid(kP, kI, kD);
-    m_driveConfig.apply(configs);
+    m_driveConfig.closedLoop.pid(kP, kI, kD);
   }
 
   @Override
   public void setTurnPID(double kP, double kI, double kD) {
-    var configs = new ClosedLoopConfig().pid(kP, kI, kD);
-    m_turnConfig.apply(configs);
+    m_turnConfig.closedLoop.pid(kP, kI, kD);
   }
 
   @Override

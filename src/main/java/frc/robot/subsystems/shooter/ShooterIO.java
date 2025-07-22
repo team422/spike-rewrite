@@ -9,7 +9,10 @@ public interface ShooterIO {
     double bottomVelocity;
     double topVoltage;
     double bottomVoltage;
-    boolean withinTolerance;
+    double topCurrent;
+    double bottomCurrent;
+    boolean topMotorIsConnected;
+    boolean bottomMotorIsConnected;
   }
 
   public void setVoltage(double topVoltage, double bottomVoltage);

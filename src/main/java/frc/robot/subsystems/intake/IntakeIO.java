@@ -7,6 +7,8 @@ public interface IntakeIO {
   public class IntakeInputs {
     double voltage;
     double velocity;
+    double current;
+    boolean isMotorConnected;
   }
 
   public void updateInputs(IntakeInputs inputs);

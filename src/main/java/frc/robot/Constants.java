@@ -3,7 +3,6 @@ package frc.robot;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Pounds;
 
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -33,8 +32,6 @@ public class Constants {
   public static final boolean kTuningMode = true;
 
   public static final class DriveConstants {
-    public static final MotorType kMotorType = MotorType.kBrushless;
-
     public static final double kMaxLinearSpeed = 4.5; // meters per second
     // Tommy - this constant is unused right now, see my comment in driveToPointPeriodic
     public static final double kMaxDriveToPointSpeed = 3.6;
@@ -158,12 +155,18 @@ public class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final double kIdleVoltage = 0.0;
-    public static final double kTopRPS = 0.0;
-    public static final double kBottomRPS = 0.0;
-    public static final double kRejectingVoltage = 0.0;
-    public static final double kTopAmpVelocity = 0.0;
-    public static final double kBottomAmpVelocity = 0.0;
+    public static final LoggedTunableNumber kIdleVoltage =
+        new LoggedTunableNumber("Shooter/idleVoltage", 0.0);
+    public static final LoggedTunableNumber kTopRPS =
+        new LoggedTunableNumber("Shooter/topRPS", 0.0);
+    public static final LoggedTunableNumber kBottomRPS =
+        new LoggedTunableNumber("Shooter/bottomRPS", 0.0);
+    public static final LoggedTunableNumber kRejectingVoltage =
+        new LoggedTunableNumber("Shooter/rejectingVoltage", 0.0);
+    public static final LoggedTunableNumber kTopAmpVelocity =
+        new LoggedTunableNumber("Shooter/topAmpVelocity", 0);
+    public static final LoggedTunableNumber kBottomAmpVelocity =
+        new LoggedTunableNumber("Shooter/bottomAmpVelocity", 0);
 
     public static final LoggedTunableNumber kTopShooterP =
         new LoggedTunableNumber("Shooter/TopP", 0.0);
@@ -193,12 +196,18 @@ public class Constants {
   }
 
   public static final class IndexerConstants {
-    public static final double kIdleVoltage = 0;
-    public static final double kIntakingVoltage = 0;
-    public static final double kIndexingVoltage = 0;
-    public static final double kReversingVoltage = 0;
-    public static final double kShootingVoltage = 0;
-    public static final double kVomitVoltage = 0;
+    public static final LoggedTunableNumber kIdleVoltage =
+        new LoggedTunableNumber("Indexer/idleVoltage", 0.0);
+    public static final LoggedTunableNumber kIntakingVoltage =
+        new LoggedTunableNumber("Indexer/intakingVoltage", 0.0);
+    public static final LoggedTunableNumber kIndexingVoltage =
+        new LoggedTunableNumber("Indexer/indexingVoltage", 0.0);
+    public static final LoggedTunableNumber kReversingVoltage =
+        new LoggedTunableNumber("Indexer/reversingVoltage", 0.0);
+    public static final LoggedTunableNumber kShootingVoltage =
+        new LoggedTunableNumber("Indexer/shootingVoltage", 0.0);
+    public static final LoggedTunableNumber kVomitVoltage =
+        new LoggedTunableNumber("Indexer/vomitVoltage", 0.0);
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);
@@ -207,9 +216,12 @@ public class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final double kIdleVoltage = 0;
-    public static final double kIntakingVoltage = 0;
-    public static final double kVomitVoltage = 0;
+    public static final LoggedTunableNumber kIdleVoltage =
+        new LoggedTunableNumber("Intake/idleVoltage", 0.0);
+    public static final LoggedTunableNumber kIntakingVoltage =
+        new LoggedTunableNumber("Intake/intakingVoltage", 0.0);
+    public static final LoggedTunableNumber kVomitVoltage =
+        new LoggedTunableNumber("Intake/vomitVoltage", 0.0);
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);

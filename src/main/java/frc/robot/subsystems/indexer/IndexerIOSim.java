@@ -27,7 +27,7 @@ public class IndexerIOSim implements IndexerIO {
     m_sim.setInputVoltage(m_voltage);
     m_sim.update(.02);
 
-    inputs.hasPiece = hasPiece();
+    inputs.hasPiece = !m_sensor1.get() || !m_sensor2.get();
     inputs.voltage = m_voltage;
     inputs.velocity = m_sim.getAngularVelocityRadPerSec();
   }
@@ -35,10 +35,5 @@ public class IndexerIOSim implements IndexerIO {
   @Override
   public void setVoltage(double voltage) {
     m_voltage = voltage;
-  }
-
-  @Override
-  public boolean hasPiece() {
-    return !m_sensor1.get() || !m_sensor2.get();
   }
 }

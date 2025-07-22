@@ -41,16 +41,16 @@ public class Indexer extends SubsystemBase {
 
     m_profiles.getPeriodicFunction().run();
 
-    Logger.processInputs("Indexer/inputs", m_inputs);
+    Logger.processInputs("Indexer", m_inputs);
   }
 
   public void idlePeriodic() {
-    m_io.setVoltage(IndexerConstants.kIdleVoltage);
+    m_io.setVoltage(IndexerConstants.kIdleVoltage.get());
   }
 
   public void intakingPeriodic() {
-    if (!m_io.hasPiece()) {
-      m_io.setVoltage(IndexerConstants.kIntakingVoltage);
+    if (!m_inputs.hasPiece) {
+      m_io.setVoltage(IndexerConstants.kIntakingVoltage.get());
     } else {
       updateState(IndexerState.kIndexing);
       indexingPeriodic();
@@ -58,25 +58,25 @@ public class Indexer extends SubsystemBase {
   }
 
   public void indexingPeriodic() {
-    m_io.setVoltage(IndexerConstants.kIndexingVoltage);
+    m_io.setVoltage(IndexerConstants.kIndexingVoltage.get());
   }
 
   public void reversingPeriodic() {
-    m_io.setVoltage(IndexerConstants.kReversingVoltage);
+    m_io.setVoltage(IndexerConstants.kReversingVoltage.get());
   }
 
   public void shootingPeriodic() {
-    m_io.setVoltage(IndexerConstants.kShootingVoltage);
+    m_io.setVoltage(IndexerConstants.kShootingVoltage.get());
   }
 
   public void vomitPeriodic() {
-    m_io.setVoltage(IndexerConstants.kVomitVoltage);
+    m_io.setVoltage(IndexerConstants.kVomitVoltage.get());
   }
 
   public void updateState(IndexerState state) {
     switch (state) {
       case kIdle:
-        m_io.setVoltage(IndexerConstants.kIdleVoltage);
+        m_io.setVoltage(IndexerConstants.kIdleVoltage.get());
       case kIndexing:
       case kIntaking:
       case kReversing:

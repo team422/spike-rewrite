@@ -19,7 +19,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.GyroIOReplay;
 import frc.robot.subsystems.drive.ModuleIOReplay;
 import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.drive.ModuleIOSparkMax;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.Indexer.IndexerState;
 import frc.robot.subsystems.indexer.IndexerIONeo;
@@ -58,10 +58,10 @@ public class RobotContainer {
         m_drive =
             new Drive(
                 new GyroIOPigeon2(),
-                new ModuleIOTalonFX(0),
-                new ModuleIOTalonFX(1),
-                new ModuleIOTalonFX(2),
-                new ModuleIOTalonFX(3));
+                new ModuleIOSparkMax(0),
+                new ModuleIOSparkMax(1),
+                new ModuleIOSparkMax(2),
+                new ModuleIOSparkMax(3));
         m_indexer =
             new Indexer(
                 new IndexerIONeo(Ports.kIndexer, Ports.kPhotoelectric1, Ports.kPhotoelectric2));
@@ -166,7 +166,7 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  m_state.updateAction(RobotAction.kRevving);
+                  m_state.updateAction(RobotAction.kSubwooferShooting);
                 }));
     m_controls
         .index()

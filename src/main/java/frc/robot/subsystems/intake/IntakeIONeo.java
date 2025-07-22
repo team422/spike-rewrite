@@ -1,8 +1,11 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class IntakeIONeo implements IntakeIO {
   private SparkMax m_motor;
@@ -11,11 +14,17 @@ public class IntakeIONeo implements IntakeIO {
   public IntakeIONeo(int motorPort) {
     m_motor = new SparkMax(motorPort, MotorType.kBrushless);
     m_encoder = m_motor.getEncoder();
+
+    SparkMaxConfig configs = new SparkMaxConfig();
+    m_motor.configure(configs, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void updateInputs(IntakeInputs inputs) {
     inputs.velocity = m_encoder.getVelocity();
     inputs.voltage = m_motor.getBusVoltage() * m_motor.getAppliedOutput();
+    inputs.current = m_motor.getOutputCurrent();
+
+    // TODO: add the statussignal for isConnected
   }
 
   public void setVoltage(double voltage) {

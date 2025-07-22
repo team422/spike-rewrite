@@ -8,11 +8,13 @@ public interface IndexerIO {
     double voltage;
     double velocity;
     boolean hasPiece;
+    boolean photoelectric1Raw;
+    boolean photoelectric2Raw;
+    double current;
+    boolean isMotorConnected;
   }
 
   public void updateInputs(IndexerInputs inputs);
 
   public void setVoltage(double voltage);
-
-  public boolean hasPiece();
 }

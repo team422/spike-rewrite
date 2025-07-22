@@ -34,25 +34,25 @@ public class Intake extends SubsystemBase {
     m_io.updateInputs(m_inputs);
     m_profiles.getPeriodicFunction().run();
 
-    Logger.processInputs("Intake/inputs", m_inputs);
+    Logger.processInputs("Intake", m_inputs);
   }
 
   public void idlePeriodic() {
-    m_io.setVoltage(IntakeConstants.kIdleVoltage);
+    m_io.setVoltage(IntakeConstants.kIdleVoltage.get());
   }
 
   public void intakingPeriodic() {
-    m_io.setVoltage(IntakeConstants.kIntakingVoltage);
+    m_io.setVoltage(IntakeConstants.kIntakingVoltage.get());
   }
 
   public void vomitPeriodic() {
-    m_io.setVoltage(IntakeConstants.kVomitVoltage);
+    m_io.setVoltage(IntakeConstants.kVomitVoltage.get());
   }
 
   public void updateState(IntakeState state) {
     switch (state) {
       case kIdle:
-        m_io.setVoltage(IntakeConstants.kIdleVoltage);
+        m_io.setVoltage(IntakeConstants.kIdleVoltage.get());
       case kIntaking:
       case kVomit:
         break;

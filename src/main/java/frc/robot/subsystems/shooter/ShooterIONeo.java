@@ -11,6 +11,7 @@ public class ShooterIONeo implements ShooterIO {
   private SparkMax m_topWheel;
   private SparkMax m_bottomWheel;
   private RelativeEncoder m_topCoder;
+  private SparkMaxConfig m_topConfigs;
   private RelativeEncoder m_bottomCoder;
   private SparkMaxConfig m_bottomConfigs;
 
@@ -21,15 +22,15 @@ public class ShooterIONeo implements ShooterIO {
     m_topCoder = m_topWheel.getEncoder();
     m_bottomCoder = m_bottomWheel.getEncoder();
 
+    m_topConfigs = new SparkMaxConfig();
+
     m_bottomConfigs = new SparkMaxConfig();
     m_bottomConfigs.inverted(true);
 
+    m_topWheel.configure(
+        m_topConfigs, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
     m_bottomWheel.configure(
-        m_bottomConfigs,
-        ResetMode.kResetSafeParameters,
-        PersistMode
-            .kPersistParameters); // documentation for ResetMode and PersistMode is just awful, I
-    // can't tell what it means
+        m_bottomConfigs, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
@@ -44,5 +45,9 @@ public class ShooterIONeo implements ShooterIO {
     inputs.bottomVelocity = m_bottomCoder.getVelocity();
     inputs.topVoltage = m_topWheel.getBusVoltage() * m_topWheel.getAppliedOutput();
     inputs.bottomVoltage = m_bottomWheel.getBusVoltage() * m_bottomWheel.getAppliedOutput();
+    inputs.topCurrent = m_topWheel.getOutputCurrent();
+    inputs.bottomCurrent = m_bottomWheel.getOutputCurrent();
+
+    // TODO: statussignals for top and bottom for isConnected
   }
 }

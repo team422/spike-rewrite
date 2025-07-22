@@ -1,8 +1,11 @@
 package frc.robot.subsystems.indexer;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class IndexerIONeo implements IndexerIO {
@@ -17,22 +20,25 @@ public class IndexerIONeo implements IndexerIO {
 
     m_sensor1 = new DigitalInput(sensorPort1);
     m_sensor2 = new DigitalInput(sensorPort2);
+
+    SparkMaxConfig configs = new SparkMaxConfig();
+    m_motor.configure(configs, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override
   public void updateInputs(IndexerInputs inputs) {
     inputs.voltage = m_motor.getBusVoltage() * m_motor.getAppliedOutput();
     inputs.velocity = m_encoder.getVelocity();
-    inputs.hasPiece = hasPiece();
+    inputs.hasPiece = !m_sensor1.get() || !m_sensor2.get();
+    inputs.current = m_motor.getOutputCurrent();
+    inputs.photoelectric1Raw = m_sensor1.get();
+    inputs.photoelectric2Raw = m_sensor2.get();
+
+    // TODO: add the statussignal to see if motor is connected
   }
 
   @Override
   public void setVoltage(double voltage) {
     m_motor.setVoltage(voltage);
-  }
-
-  @Override
-  public boolean hasPiece() {
-    return !m_sensor1.get() || !m_sensor2.get();
   }
 }
