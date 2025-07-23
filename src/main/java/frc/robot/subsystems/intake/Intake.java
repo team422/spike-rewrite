@@ -59,4 +59,8 @@ public class Intake extends SubsystemBase {
     }
     m_profiles.setCurrentProfile(state);
   }
+
+  public IntakeState getIntakeState() {
+    return m_profiles.getCurrentProfile();
+  }
 }

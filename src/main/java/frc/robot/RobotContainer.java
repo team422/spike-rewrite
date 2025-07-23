@@ -54,7 +54,6 @@ public class RobotContainer {
   private void configureSubsystems() {
     switch (Constants.kCurrentMode) {
       case REAL:
-        // TODO: Make talon into sparkmax
         m_drive =
             new Drive(
                 new GyroIOPigeon2(),

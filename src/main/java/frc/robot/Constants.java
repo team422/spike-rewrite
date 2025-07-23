@@ -109,9 +109,6 @@ public class Constants {
     public static final LoggedTunableNumber kDriveToPointHeadingD =
         new LoggedTunableNumber("DriveToPoint Heading D", 0.05);
 
-    public static final LoggedTunableNumber kDriveFF = new LoggedTunableNumber("Drive FF", 0.0);
-    public static final LoggedTunableNumber kTurnFF = new LoggedTunableNumber("Drive Turn FF", 0.0);
-
     public static final LoggedTunableNumber kDriveToPointMaxVelocity =
         new LoggedTunableNumber("DriveToPoint Max Velocity", 3.0);
     public static final LoggedTunableNumber kDriveToPointMaxAcceleration =
@@ -193,6 +190,28 @@ public class Constants {
     public static final DCMotor kBottomDCMotor = DCMotor.getNEO(1);
     public static final double kSimMOI = 0.0;
     public static final double kSimGearing = 0.0;
+
+    public static final LoggedTunableNumber kSimTopShooterP =
+        new LoggedTunableNumber("Shooter/SimTopP", 0.0);
+    public static final LoggedTunableNumber kSimTopShooterI =
+        new LoggedTunableNumber("Shooter/SimTopI", 0.0);
+    public static final LoggedTunableNumber kSimTopShooterD =
+        new LoggedTunableNumber("Shooter/SimTopD", 0.0);
+    public static final LoggedTunableNumber kSimBottomShooterP =
+        new LoggedTunableNumber("Shooter/SimBottomP", 0.0);
+    public static final LoggedTunableNumber kSimBottomShooterI =
+        new LoggedTunableNumber("Shooter/SimBottomI", 0.0);
+    public static final LoggedTunableNumber kSimBottomShooterD =
+        new LoggedTunableNumber("Shooter/SimBottomD", 0.0);
+
+    public static final LoggedTunableNumber kSimTopKs =
+        new LoggedTunableNumber("Shooter/SimTopKs", 0.0);
+    public static final LoggedTunableNumber kSimTopKv =
+        new LoggedTunableNumber("Shooter/SimTopKv", 0.0);
+    public static final LoggedTunableNumber kSimBottomKs =
+        new LoggedTunableNumber("Shooter/SimBottomKs", 0.0);
+    public static final LoggedTunableNumber kSimBottomKv =
+        new LoggedTunableNumber("Shooter/SimBottomKv", 0.0);
   }
 
   public static final class IndexerConstants {

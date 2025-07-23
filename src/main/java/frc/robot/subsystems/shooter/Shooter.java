@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.littletonUtils.LoggedTunableNumber;
 import frc.robot.Constants.ShooterConstants;
@@ -55,47 +56,91 @@ public class Shooter extends SubsystemBase {
     m_profiles.getPeriodicFunction().run();
 
     Logger.processInputs("Shooter", m_inputs);
-    LoggedTunableNumber.ifChanged(
-        hashCode(),
-        () -> {
-          m_topController.setPID(
-              ShooterConstants.kTopShooterP.getAsDouble(),
-              ShooterConstants.kTopShooterI.getAsDouble(),
-              ShooterConstants.kTopShooterD.getAsDouble());
-        },
-        ShooterConstants.kTopShooterP,
-        ShooterConstants.kTopShooterI,
-        ShooterConstants.kTopShooterD);
+    if (RobotBase.isReal()) {
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_topController.setPID(
+                ShooterConstants.kTopShooterP.getAsDouble(),
+                ShooterConstants.kTopShooterI.getAsDouble(),
+                ShooterConstants.kTopShooterD.getAsDouble());
+          },
+          ShooterConstants.kTopShooterP,
+          ShooterConstants.kTopShooterI,
+          ShooterConstants.kTopShooterD);
 
-    LoggedTunableNumber.ifChanged(
-        hashCode(),
-        () -> {
-          m_bottomController.setPID(
-              ShooterConstants.kBottomShooterP.getAsDouble(),
-              ShooterConstants.kBottomShooterI.getAsDouble(),
-              ShooterConstants.kBottomShooterD.getAsDouble());
-        },
-        ShooterConstants.kBottomShooterP,
-        ShooterConstants.kBottomShooterI,
-        ShooterConstants.kBottomShooterD);
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_bottomController.setPID(
+                ShooterConstants.kBottomShooterP.getAsDouble(),
+                ShooterConstants.kBottomShooterI.getAsDouble(),
+                ShooterConstants.kBottomShooterD.getAsDouble());
+          },
+          ShooterConstants.kBottomShooterP,
+          ShooterConstants.kBottomShooterI,
+          ShooterConstants.kBottomShooterD);
 
-    LoggedTunableNumber.ifChanged(
-        hashCode(),
-        () -> {
-          m_topFF.setKs(ShooterConstants.kTopKs.getAsDouble());
-          m_topFF.setKv(ShooterConstants.kTopKv.getAsDouble());
-        },
-        ShooterConstants.kTopKs,
-        ShooterConstants.kTopKv);
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_topFF.setKs(ShooterConstants.kTopKs.getAsDouble());
+            m_topFF.setKv(ShooterConstants.kTopKv.getAsDouble());
+          },
+          ShooterConstants.kTopKs,
+          ShooterConstants.kTopKv);
 
-    LoggedTunableNumber.ifChanged(
-        hashCode(),
-        () -> {
-          m_bottomFF.setKs(ShooterConstants.kBottomKs.getAsDouble());
-          m_bottomFF.setKv(ShooterConstants.kTopKv.getAsDouble());
-        },
-        ShooterConstants.kBottomKs,
-        ShooterConstants.kBottomKv);
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_bottomFF.setKs(ShooterConstants.kBottomKs.getAsDouble());
+            m_bottomFF.setKv(ShooterConstants.kTopKv.getAsDouble());
+          },
+          ShooterConstants.kBottomKs,
+          ShooterConstants.kBottomKv);
+    } else if (RobotBase.isSimulation()) {
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_topController.setPID(
+                ShooterConstants.kSimTopShooterP.getAsDouble(),
+                ShooterConstants.kSimTopShooterI.getAsDouble(),
+                ShooterConstants.kSimTopShooterD.getAsDouble());
+          },
+          ShooterConstants.kSimTopShooterP,
+          ShooterConstants.kSimTopShooterI,
+          ShooterConstants.kSimTopShooterD);
+
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_bottomController.setPID(
+                ShooterConstants.kSimBottomShooterP.getAsDouble(),
+                ShooterConstants.kSimBottomShooterI.getAsDouble(),
+                ShooterConstants.kSimBottomShooterD.getAsDouble());
+          },
+          ShooterConstants.kSimBottomShooterP,
+          ShooterConstants.kSimBottomShooterI,
+          ShooterConstants.kSimBottomShooterD);
+
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_topFF.setKs(ShooterConstants.kSimTopKs.getAsDouble());
+            m_topFF.setKv(ShooterConstants.kSimTopKv.getAsDouble());
+          },
+          ShooterConstants.kSimTopKs,
+          ShooterConstants.kSimTopKv);
+
+      LoggedTunableNumber.ifChanged(
+          hashCode(),
+          () -> {
+            m_bottomFF.setKs(ShooterConstants.kSimBottomKs.getAsDouble());
+            m_bottomFF.setKv(ShooterConstants.kSimTopKv.getAsDouble());
+          },
+          ShooterConstants.kSimBottomKs,
+          ShooterConstants.kSimBottomKv);
+    }
   }
 
   public void idlePeriodic() {
@@ -104,10 +149,10 @@ public class Shooter extends SubsystemBase {
 
   public void revvingPeriodic() {
     double topVoltage =
-        m_topController.calculate(ShooterConstants.kTopRPS.get())
+        m_topController.calculate(m_inputs.topVelocity)
             + m_topFF.calculate(m_topController.getSetpoint());
     double bottomVoltage =
-        m_bottomController.calculate(ShooterConstants.kBottomRPS.get())
+        m_bottomController.calculate(m_inputs.bottomVelocity)
             + m_bottomFF.calculate(m_bottomController.getSetpoint());
 
     m_io.setVoltage(topVoltage, bottomVoltage);
@@ -138,5 +183,9 @@ public class Shooter extends SubsystemBase {
         break;
     }
     m_profiles.setCurrentProfile(state);
+  }
+
+  public ShooterState getShooterState() {
+    return m_profiles.getCurrentProfile();
   }
 }

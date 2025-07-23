@@ -19,6 +19,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -105,11 +106,10 @@ public class ModuleIOSparkMax implements ModuleIO {
             .primaryEncoderPositionPeriodMs((int) (1000.0 / DriveConstants.kOdometryFrequency));
     var driveLoopConfig =
         new ClosedLoopConfig()
-            .pidf(
+            .pid(
                 DriveConstants.kDriveToPointP.getAsDouble(),
                 DriveConstants.kDriveToPointI.getAsDouble(),
-                DriveConstants.kDriveToPointD.getAsDouble(),
-                DriveConstants.kDriveFF.getAsDouble());
+                DriveConstants.kDriveToPointD.getAsDouble());
     m_driveConfig =
         new SparkMaxConfig()
             .smartCurrentLimit(40)
@@ -120,11 +120,10 @@ public class ModuleIOSparkMax implements ModuleIO {
 
     var turnLoopConfig =
         new ClosedLoopConfig()
-            .pidf(
+            .pid(
                 DriveConstants.kDriveToPointHeadingP.getAsDouble(),
                 DriveConstants.kDriveToPointHeadingI.getAsDouble(),
-                DriveConstants.kDriveToPointHeadingD.getAsDouble(),
-                DriveConstants.kTurnFF.getAsDouble());
+                DriveConstants.kDriveToPointHeadingD.getAsDouble());
     m_turnConfig =
         new SparkMaxConfig()
             .inverted(m_isTurnMotorInverted)
@@ -229,13 +228,14 @@ public class ModuleIOSparkMax implements ModuleIO {
   public void setDriveVelocity(double velocityRadPerSec, double feedforward) {
     var configs = new ClosedLoopConfig().velocityFF(feedforward);
     m_driveConfig.apply(configs);
-
-    // todo: how to do velocity
+    m_driveSparkMax
+        .getClosedLoopController()
+        .setReference(velocityRadPerSec, ControlType.kVelocity);
   }
 
   @Override
   public void setTurnPosition(Rotation2d position) {
-    // TODO Auto-generated method stub
+    // TODO: Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'setTurnPosition'");
   }
 
@@ -268,16 +268,20 @@ public class ModuleIOSparkMax implements ModuleIO {
   @Override
   public void setDrivePID(double kP, double kI, double kD) {
     m_driveConfig.closedLoop.pid(kP, kI, kD);
+    m_driveSparkMax.configure(
+        m_driveConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   @Override
   public void setTurnPID(double kP, double kI, double kD) {
     m_turnConfig.closedLoop.pid(kP, kI, kD);
+    m_turnSparkMax.configure(
+        m_turnConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   @Override
   public void resetTurnMotor(Angle position) {
-    // TODO Auto-generated method stub
+    // TODO: Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'resetTurnMotor'");
   }
 }

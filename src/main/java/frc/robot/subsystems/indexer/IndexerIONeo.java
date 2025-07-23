@@ -1,5 +1,7 @@
 package frc.robot.subsystems.indexer;
 
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.signals.ConnectedMotorValue;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -13,6 +15,7 @@ public class IndexerIONeo implements IndexerIO {
   private RelativeEncoder m_encoder;
   private DigitalInput m_sensor1;
   private DigitalInput m_sensor2;
+  private StatusSignal<ConnectedMotorValue> m_motorConnected;
 
   public IndexerIONeo(int motorPort, int sensorPort1, int sensorPort2) {
     m_motor = new SparkMax(motorPort, MotorType.kBrushless);

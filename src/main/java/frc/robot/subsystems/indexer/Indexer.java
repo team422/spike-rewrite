@@ -86,4 +86,8 @@ public class Indexer extends SubsystemBase {
     }
     m_profiles.setCurrentProfile(state);
   }
+
+  public IndexerState getIndexerState() {
+    return m_profiles.getCurrentProfile();
+  }
 }
