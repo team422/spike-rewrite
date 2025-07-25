@@ -29,7 +29,7 @@ public class IndexerIOSim implements IndexerIO {
 
     inputs.hasPiece = !m_sensor1.get() || !m_sensor2.get();
     inputs.voltage = m_voltage;
-    inputs.velocity = m_sim.getAngularVelocityRadPerSec();
+    inputs.velocityRPM = m_sim.getAngularVelocityRadPerSec();
   }
 
   @Override

@@ -1,6 +1,10 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+
 import edu.wpi.first.hal.HALUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveProfiles;
 import frc.robot.subsystems.indexer.Indexer;
@@ -9,6 +13,7 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.Shooter.ShooterState;
+import frc.robot.util.ShooterMath;
 import frc.robot.util.SubsystemProfiles;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,48 +87,66 @@ public class RobotState {
   }
 
   // TODO: Periodics
-  public void alignShootingPeriodic() {}
+  public void alignShootingPeriodic() {
+    var speeds = ShooterMath.calculateSpeakerFlywheelSpeed(m_drive.getPose());
+    m_shooter.setVelocity(speeds.getFirst(), speeds.getSecond());
+    m_drive.setDesiredHeading(ShooterMath.calculateSpeakerHeading(m_drive.getPose()));
+  }
 
-  public void autoShootingPeriodic() {}
+  public void autoShootingPeriodic() {
+    var speeds = ShooterMath.calculateSpeakerFlywheelSpeed(m_drive.getPose());
+    m_shooter.setVelocity(speeds.getFirst(), speeds.getSecond());
+    var rot = ShooterMath.calculateSpeakerHeading(m_drive.getPose());
+    m_drive.setDesiredHeading(rot);
 
-  public void ampPeriodic() {}
+    boolean driveWithinTolerance =
+        rot.minus(m_drive.getRotation()).getMeasure().abs(Degrees)
+            < DriveConstants.kAutoAlignTolerance;
+    // TODO: get top and bottom velocity
+    boolean topWithinTolerance = true;
+    boolean bottomWithinTolerance = true;
+    if (driveWithinTolerance && topWithinTolerance && bottomWithinTolerance) {
+      m_indexer.updateState(IndexerState.kShooting);
+    }
+  }
+
+  public void ampPeriodic() {
+    m_drive.setDesiredHeading(Rotation2d.fromDegrees(90));
+  }
 
   public void updateAction(RobotAction action) {
-    DriveProfiles newDriveProfile = m_drive.getCurrentProfile();
-    IndexerState newIndexerState = m_indexer.getIndexerState();
-    IntakeState newIntakeState = m_intake.getIntakeState();
-    ShooterState newShooterState = m_shooter.getShooterState();
+    DriveProfiles newDriveProfile = DriveProfiles.kDefault;
+    IndexerState newIndexerState = IndexerState.kIdle;
+    IntakeState newIntakeState = IntakeState.kIdle;
+    ShooterState newShooterState = ShooterState.kIdle;
 
     switch (action) {
       case kTeleopDefault:
       case kAutoDefault:
-        newDriveProfile = DriveProfiles.kDefault;
-        newIndexerState = IndexerState.kIdle;
-        newIntakeState = IntakeState.kIdle;
-        newShooterState = ShooterState.kIdle;
         break;
       case kAlignShooting:
       case kAutoShooting:
         newDriveProfile = DriveProfiles.kAutoAlign;
+        newShooterState = ShooterState.kRevving;
+        break;
+
       case kSubwooferShooting:
         newShooterState = ShooterState.kRevving;
-        newIntakeState = IntakeState.kIdle;
         break;
+
       case kIntake:
-        newDriveProfile = DriveProfiles.kDefault;
         newIntakeState = IntakeState.kIntaking;
         newIndexerState = IndexerState.kIntaking;
-        newShooterState = ShooterState.kIdle;
         break;
+
       case kVomitting:
-        newDriveProfile = DriveProfiles.kDefault;
         newIndexerState = IndexerState.kVomitting;
         newIntakeState = IntakeState.kVomit;
         newShooterState = ShooterState.kRejecting;
         break;
+
       case kAmp:
-        newDriveProfile = DriveProfiles.kDefault;
-        newIntakeState = IntakeState.kIdle;
+        newDriveProfile = DriveProfiles.kAutoAlign;
         newShooterState = ShooterState.kAmp;
         break;
     }

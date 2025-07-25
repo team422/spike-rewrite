@@ -41,13 +41,13 @@ public class ShooterIONeo implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterInputs inputs) {
-    inputs.topVelocity = m_topCoder.getVelocity();
-    inputs.bottomVelocity = m_bottomCoder.getVelocity();
+    inputs.topVelocityRPM = m_topCoder.getVelocity();
+    inputs.bottomVelocityRPM = m_bottomCoder.getVelocity();
     inputs.topVoltage = m_topWheel.getBusVoltage() * m_topWheel.getAppliedOutput();
     inputs.bottomVoltage = m_bottomWheel.getBusVoltage() * m_bottomWheel.getAppliedOutput();
     inputs.topCurrent = m_topWheel.getOutputCurrent();
     inputs.bottomCurrent = m_bottomWheel.getOutputCurrent();
-
-    // TODO: statussignals for top and bottom for isConnected
+    inputs.topMotorIsConnected = m_topWheel.getBusVoltage() != 12;
+    inputs.bottomMotorIsConnected = m_bottomWheel.getBusVoltage() != 12;
   }
 }

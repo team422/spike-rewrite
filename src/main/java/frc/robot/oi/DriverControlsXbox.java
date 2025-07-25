@@ -32,7 +32,7 @@ public class DriverControlsXbox implements DriverControls {
 
   @Override
   public Trigger rev() {
-    return m_controller.leftTrigger();
+    return m_controller.a();
   }
 
   @Override
@@ -48,5 +48,10 @@ public class DriverControlsXbox implements DriverControls {
   @Override
   public Trigger amp() {
     return m_controller.y();
+  }
+
+  @Override
+  public Trigger align() {
+    return m_controller.leftTrigger();
   }
 }

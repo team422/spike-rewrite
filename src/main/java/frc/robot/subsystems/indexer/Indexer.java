@@ -14,8 +14,6 @@ public class Indexer extends SubsystemBase {
   public enum IndexerState {
     kIdle,
     kIntaking,
-    kIndexing,
-    kReversing,
     kShooting,
     kVomitting
   }
@@ -27,8 +25,6 @@ public class Indexer extends SubsystemBase {
     HashMap<IndexerState, Runnable> periodics = new HashMap<>();
     periodics.put(IndexerState.kIdle, this::idlePeriodic);
     periodics.put(IndexerState.kIntaking, this::intakingPeriodic);
-    periodics.put(IndexerState.kIndexing, this::indexingPeriodic);
-    periodics.put(IndexerState.kReversing, this::reversingPeriodic);
     periodics.put(IndexerState.kShooting, this::shootingPeriodic);
     periodics.put(IndexerState.kVomitting, this::vomitPeriodic);
 
@@ -52,17 +48,8 @@ public class Indexer extends SubsystemBase {
     if (!m_inputs.hasPiece) {
       m_io.setVoltage(IndexerConstants.kIntakingVoltage.get());
     } else {
-      updateState(IndexerState.kIndexing);
-      indexingPeriodic();
+      updateState(IndexerState.kIdle);
     }
-  }
-
-  public void indexingPeriodic() {
-    m_io.setVoltage(IndexerConstants.kIndexingVoltage.get());
-  }
-
-  public void reversingPeriodic() {
-    m_io.setVoltage(IndexerConstants.kReversingVoltage.get());
   }
 
   public void shootingPeriodic() {
@@ -74,16 +61,6 @@ public class Indexer extends SubsystemBase {
   }
 
   public void updateState(IndexerState state) {
-    switch (state) {
-      case kIdle:
-        m_io.setVoltage(IndexerConstants.kIdleVoltage.get());
-      case kIndexing:
-      case kIntaking:
-      case kReversing:
-      case kShooting:
-      case kVomitting:
-        break;
-    }
     m_profiles.setCurrentProfile(state);
   }
 

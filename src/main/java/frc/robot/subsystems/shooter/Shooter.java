@@ -149,10 +149,10 @@ public class Shooter extends SubsystemBase {
 
   public void revvingPeriodic() {
     double topVoltage =
-        m_topController.calculate(m_inputs.topVelocity)
+        m_topController.calculate(m_inputs.topVelocityRPM)
             + m_topFF.calculate(m_topController.getSetpoint());
     double bottomVoltage =
-        m_bottomController.calculate(m_inputs.bottomVelocity)
+        m_bottomController.calculate(m_inputs.bottomVelocityRPM)
             + m_bottomFF.calculate(m_bottomController.getSetpoint());
 
     m_io.setVoltage(topVoltage, bottomVoltage);
@@ -174,14 +174,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void updateState(ShooterState state) {
-    switch (state) {
-      case kIdle:
-      case kRejecting:
-        setVelocity(0, 0);
-      case kAmp:
-      case kRevving:
-        break;
-    }
     m_profiles.setCurrentProfile(state);
   }
 

@@ -6,7 +6,7 @@ public interface IntakeIO {
   @AutoLog
   public class IntakeInputs {
     double voltage;
-    double velocity;
+    double velocityRPM;
     double current;
     boolean isMotorConnected;
   }

@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.Constants.ShooterConstants;
 
@@ -38,8 +39,10 @@ public class ShooterIOSim implements ShooterIO {
 
     inputs.topVoltage = m_topVoltage;
     inputs.bottomVoltage = m_bottomVoltage;
-    inputs.topVelocity = m_topSim.getAngularVelocityRadPerSec();
-    inputs.bottomVelocity = m_bottomSim.getAngularVelocityRadPerSec();
+    inputs.topVelocityRPM =
+        Units.radiansPerSecondToRotationsPerMinute(m_topSim.getAngularVelocityRadPerSec());
+    inputs.bottomVelocityRPM =
+        Units.radiansPerSecondToRotationsPerMinute(m_bottomSim.getAngularVelocityRadPerSec());
   }
 
   @Override

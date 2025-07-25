@@ -15,11 +15,12 @@ import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.Ports;
+import java.util.OptionalDouble;
 import java.util.Queue;
 
 /** IO implementation for Pigeon2 */
 public class GyroIOPigeon2 implements GyroIO {
-  private final Pigeon2 m_pigeon = new Pigeon2(Ports.kPigeon, Ports.kDriveCanivoreName);
+  private final Pigeon2 m_pigeon = new Pigeon2(Ports.kPigeon);
   private final StatusSignal<Angle> m_yaw = m_pigeon.getYaw();
   private final StatusSignal<Angle> m_pitch = m_pigeon.getPitch();
   private final StatusSignal<Angle> m_roll = m_pigeon.getRoll();
@@ -35,7 +36,7 @@ public class GyroIOPigeon2 implements GyroIO {
   private final StatusSignal<LinearAcceleration> m_zAcceleration = m_pigeon.getAccelerationZ();
   private final StatusSignal<Voltage> m_pigeonSupplyVoltage = m_pigeon.getSupplyVoltage();
 
-  public GyroIOPigeon2() {
+  public GyroIOPigeon2(boolean phoenixDrive) {
     m_pigeon.getConfigurator().apply(new Pigeon2Configuration());
     m_pigeon.getConfigurator().setYaw(0.0);
 
@@ -55,10 +56,48 @@ public class GyroIOPigeon2 implements GyroIO {
 
     // m_pigeon.optimizeBusUtilization();
 
-    m_timestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
-    m_yawPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(m_pigeon.getYaw());
-    m_pitchPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(m_pigeon.getPitch());
-    m_rollPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(m_pigeon.getRoll());
+    if (phoenixDrive) {
+      m_timestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
+      m_yawPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(m_pigeon.getYaw());
+      m_pitchPositionQueue =
+          PhoenixOdometryThread.getInstance().registerSignal(m_pigeon.getPitch());
+      m_rollPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(m_pigeon.getRoll());
+    } else {
+      m_timestampQueue = SparkMaxOdometryThread.getInstance().makeTimestampQueue();
+      m_yawPositionQueue =
+          SparkMaxOdometryThread.getInstance()
+              .registerSignal(
+                  () -> {
+                    boolean valid = m_yaw.refresh().getStatus().isOK();
+                    if (valid) {
+                      return OptionalDouble.of(m_yaw.getValueAsDouble());
+                    } else {
+                      return OptionalDouble.empty();
+                    }
+                  });
+      m_pitchPositionQueue =
+          SparkMaxOdometryThread.getInstance()
+              .registerSignal(
+                  () -> {
+                    boolean valid = m_pitch.refresh().getStatus().isOK();
+                    if (valid) {
+                      return OptionalDouble.of(m_pitch.getValueAsDouble());
+                    } else {
+                      return OptionalDouble.empty();
+                    }
+                  });
+      m_rollPositionQueue =
+          SparkMaxOdometryThread.getInstance()
+              .registerSignal(
+                  () -> {
+                    boolean valid = m_roll.refresh().getStatus().isOK();
+                    if (valid) {
+                      return OptionalDouble.of(m_roll.getValueAsDouble());
+                    } else {
+                      return OptionalDouble.empty();
+                    }
+                  });
+    }
   }
 
   @Override

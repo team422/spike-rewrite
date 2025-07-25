@@ -56,7 +56,7 @@ public class RobotContainer {
       case REAL:
         m_drive =
             new Drive(
-                new GyroIOPigeon2(),
+                new GyroIOPigeon2(false),
                 new ModuleIOSparkMax(0),
                 new ModuleIOSparkMax(1),
                 new ModuleIOSparkMax(2),
@@ -85,7 +85,7 @@ public class RobotContainer {
       case SIM:
         m_drive =
             new Drive(
-                new GyroIOPigeon2(),
+                new GyroIOPigeon2(false),
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim(),
@@ -172,7 +172,7 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  m_indexer.updateState(IndexerState.kIndexing);
+                  m_indexer.updateState(IndexerState.kShooting);
                 }));
     m_controls
         .eject()
@@ -187,6 +187,13 @@ public class RobotContainer {
             Commands.runOnce(
                 () -> {
                   m_state.updateAction(RobotAction.kAmp);
+                }));
+    m_controls
+        .align()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  m_state.updateAction(RobotAction.kAlignShooting);
                 }));
   }
 

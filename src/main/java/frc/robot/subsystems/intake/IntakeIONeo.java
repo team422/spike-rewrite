@@ -20,11 +20,10 @@ public class IntakeIONeo implements IntakeIO {
   }
 
   public void updateInputs(IntakeInputs inputs) {
-    inputs.velocity = m_encoder.getVelocity();
+    inputs.velocityRPM = m_encoder.getVelocity();
     inputs.voltage = m_motor.getBusVoltage() * m_motor.getAppliedOutput();
     inputs.current = m_motor.getOutputCurrent();
-
-    // TODO: add the statussignal for isConnected
+    inputs.isMotorConnected = m_motor.getBusVoltage() != 12;
   }
 
   public void setVoltage(double voltage) {

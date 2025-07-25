@@ -18,4 +18,6 @@ public interface DriverControls {
   public Trigger eject();
 
   public Trigger amp();
+
+  public Trigger align();
 }

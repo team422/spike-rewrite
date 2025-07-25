@@ -13,12 +13,15 @@
 
 package frc.robot.subsystems.drive;
 
+import static edu.wpi.first.units.Units.Revolutions;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -104,12 +107,7 @@ public class ModuleIOSparkMax implements ModuleIO {
     var signalConfig =
         new SignalsConfig()
             .primaryEncoderPositionPeriodMs((int) (1000.0 / DriveConstants.kOdometryFrequency));
-    var driveLoopConfig =
-        new ClosedLoopConfig()
-            .pid(
-                DriveConstants.kDriveToPointP.getAsDouble(),
-                DriveConstants.kDriveToPointI.getAsDouble(),
-                DriveConstants.kDriveToPointD.getAsDouble());
+    var driveLoopConfig = new ClosedLoopConfig().pid(0, 0, 0);
     m_driveConfig =
         new SparkMaxConfig()
             .smartCurrentLimit(40)
@@ -118,12 +116,7 @@ public class ModuleIOSparkMax implements ModuleIO {
             .apply(signalConfig)
             .apply(driveLoopConfig);
 
-    var turnLoopConfig =
-        new ClosedLoopConfig()
-            .pid(
-                DriveConstants.kDriveToPointHeadingP.getAsDouble(),
-                DriveConstants.kDriveToPointHeadingI.getAsDouble(),
-                DriveConstants.kDriveToPointHeadingD.getAsDouble());
+    var turnLoopConfig = new ClosedLoopConfig().pid(0, 0, 0);
     m_turnConfig =
         new SparkMaxConfig()
             .inverted(m_isTurnMotorInverted)
@@ -226,17 +219,20 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   @Override
   public void setDriveVelocity(double velocityRadPerSec, double feedforward) {
-    var configs = new ClosedLoopConfig().velocityFF(feedforward);
-    m_driveConfig.apply(configs);
     m_driveSparkMax
         .getClosedLoopController()
-        .setReference(velocityRadPerSec, ControlType.kVelocity);
+        .setReference(
+            Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec),
+            ControlType.kVelocity,
+            ClosedLoopSlot.kSlot0,
+            feedforward);
   }
 
   @Override
   public void setTurnPosition(Rotation2d position) {
-    // TODO: Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'setTurnPosition'");
+    m_turnSparkMax
+        .getClosedLoopController()
+        .setReference(position.getMeasure().in(Revolutions), ControlType.kPosition);
   }
 
   @Override
@@ -281,7 +277,6 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   @Override
   public void resetTurnMotor(Angle position) {
-    // TODO: Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'resetTurnMotor'");
+    m_turnRelativeEncoder.setPosition(position.in(Revolutions));
   }
 }

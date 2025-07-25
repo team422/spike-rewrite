@@ -50,13 +50,6 @@ public class Intake extends SubsystemBase {
   }
 
   public void updateState(IntakeState state) {
-    switch (state) {
-      case kIdle:
-        m_io.setVoltage(IntakeConstants.kIdleVoltage.get());
-      case kIntaking:
-      case kVomit:
-        break;
-    }
     m_profiles.setCurrentProfile(state);
   }
 

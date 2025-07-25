@@ -76,6 +76,8 @@ public class Constants {
         (50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0); // L2 gear ratio
     public static final double kTurnGearRatio = 150.0 / 7.0;
 
+    public static final double kAutoAlignTolerance = 2.0;
+
     // Simulation constants
     public static final double kDriveSimGearRatio = kDriveGearRatio;
     public static final double kDriveSimMOI = 0.025;
@@ -185,11 +187,13 @@ public class Constants {
     public static final LoggedTunableNumber kBottomKv =
         new LoggedTunableNumber("Shooter/BottomKv", 0.0);
 
+    public static final double kVelocityTolerance = 6.0; // in RPM
+
     // sim
     public static final DCMotor kTopDCMotor = DCMotor.getNEO(1);
     public static final DCMotor kBottomDCMotor = DCMotor.getNEO(1);
-    public static final double kSimMOI = 0.0;
-    public static final double kSimGearing = 0.0;
+    public static final double kSimMOI = 10.0;
+    public static final double kSimGearing = 10.0;
 
     public static final LoggedTunableNumber kSimTopShooterP =
         new LoggedTunableNumber("Shooter/SimTopP", 0.0);
@@ -219,10 +223,6 @@ public class Constants {
         new LoggedTunableNumber("Indexer/idleVoltage", 0.0);
     public static final LoggedTunableNumber kIntakingVoltage =
         new LoggedTunableNumber("Indexer/intakingVoltage", 0.0);
-    public static final LoggedTunableNumber kIndexingVoltage =
-        new LoggedTunableNumber("Indexer/indexingVoltage", 0.0);
-    public static final LoggedTunableNumber kReversingVoltage =
-        new LoggedTunableNumber("Indexer/reversingVoltage", 0.0);
     public static final LoggedTunableNumber kShootingVoltage =
         new LoggedTunableNumber("Indexer/shootingVoltage", 0.0);
     public static final LoggedTunableNumber kVomitVoltage =
@@ -230,8 +230,8 @@ public class Constants {
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);
-    public static final double kSimMOI = 0.0;
-    public static final double kSimGearing = 0.0;
+    public static final double kSimMOI = 10.0;
+    public static final double kSimGearing = 10.0;
   }
 
   public static final class IntakeConstants {
@@ -244,8 +244,8 @@ public class Constants {
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);
-    public static final double kSimMOI = 0.0;
-    public static final double kSimGearing = 0.0;
+    public static final double kSimMOI = 10.0;
+    public static final double kSimGearing = 10.0;
   }
 
   public static final class Ports {
@@ -265,14 +265,14 @@ public class Constants {
     public static final int kBackRightTurn = 10;
     public static final int kBackRightCancoder = 11;
 
-    public static final int kIndexer = 0;
-    public static final int kPhotoelectric1 = 0;
-    public static final int kPhotoelectric2 = 0;
+    public static final int kIndexer = 12;
+    public static final int kPhotoelectric1 = 13;
+    public static final int kPhotoelectric2 = 14;
 
-    public static final int kIntake = 0;
+    public static final int kIntake = 15;
 
-    public static final int kTopShooter = 0;
-    public static final int kBottomShooter = 0;
+    public static final int kTopShooter = 16;
+    public static final int kBottomShooter = 17;
 
     public static final int kPigeon = 22;
 
@@ -322,7 +322,7 @@ public class Constants {
 
     public static final double kAprilTagWidth = Units.inchesToMeters(6.5);
     public static final AprilTagFieldLayout kAprilTagLayout =
-        AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+        AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
 
     public static final Pose2d kAmpBlue = new Pose2d(1.749, 7.82, Rotation2d.fromDegrees(90));
     public static final Pose2d kDailedShot = new Pose2d(2.95, 4.08, new Rotation2d(145.00));

@@ -32,7 +32,7 @@ public class DriverControlsPS5 implements DriverControls {
 
   @Override
   public Trigger rev() {
-    return m_controller.L2();
+    return m_controller.cross();
   }
 
   @Override
@@ -48,5 +48,10 @@ public class DriverControlsPS5 implements DriverControls {
   @Override
   public Trigger amp() {
     return m_controller.triangle();
+  }
+
+  @Override
+  public Trigger align() {
+    return m_controller.L2();
   }
 }
