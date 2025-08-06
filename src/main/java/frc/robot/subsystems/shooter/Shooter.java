@@ -180,4 +180,11 @@ public class Shooter extends SubsystemBase {
   public ShooterState getShooterState() {
     return m_profiles.getCurrentProfile();
   }
+
+  public boolean withinTolerance() {
+    double top = Math.abs(m_inputs.topVelocityRPM - m_topController.getSetpoint());
+    double bottom = Math.abs(m_inputs.bottomVelocityRPM - m_bottomController.getSetpoint());
+    return top < ShooterConstants.kVelocityTolerance
+        && bottom < ShooterConstants.kVelocityTolerance;
+  }
 }

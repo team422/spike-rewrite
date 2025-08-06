@@ -86,7 +86,6 @@ public class RobotState {
     Logger.recordOutput("PeriodicTime/RobotState", (HALUtil.getFPGATime() - start) / 1000.0);
   }
 
-  // TODO: Periodics
   public void alignShootingPeriodic() {
     var speeds = ShooterMath.calculateSpeakerFlywheelSpeed(m_drive.getPose());
     m_shooter.setVelocity(speeds.getFirst(), speeds.getSecond());
@@ -102,10 +101,9 @@ public class RobotState {
     boolean driveWithinTolerance =
         rot.minus(m_drive.getRotation()).getMeasure().abs(Degrees)
             < DriveConstants.kAutoAlignTolerance;
-    // TODO: get top and bottom velocity
-    boolean topWithinTolerance = true;
-    boolean bottomWithinTolerance = true;
-    if (driveWithinTolerance && topWithinTolerance && bottomWithinTolerance) {
+    Logger.recordOutput(
+        "Indexer/withinTolerance", driveWithinTolerance && m_shooter.withinTolerance());
+    if (driveWithinTolerance && m_shooter.withinTolerance()) {
       m_indexer.updateState(IndexerState.kShooting);
     }
   }
@@ -173,5 +171,9 @@ public class RobotState {
     } else {
       updateAction(RobotAction.kTeleopDefault);
     }
+  }
+
+  public RobotAction getAction(){
+    return m_profiles.getCurrentProfile();
   }
 }

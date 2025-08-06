@@ -41,7 +41,6 @@ public class RobotContainer {
   private Indexer m_indexer;
   private Intake m_intake;
   private Shooter m_shooter;
-
   private DriverControls m_controls;
 
   public RobotContainer() {
@@ -186,14 +185,22 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  m_state.updateAction(RobotAction.kAmp);
+                  if (m_state.getAction()!=RobotAction.kAmp) {
+                    m_state.updateAction(RobotAction.kAmp);
+                  } else {
+                    m_state.updateAction(RobotAction.kTeleopDefault);
+                  }
                 }));
     m_controls
         .align()
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  m_state.updateAction(RobotAction.kAlignShooting);
+                  if(m_state.getAction()!=RobotAction.kAlignShooting){
+                    m_state.updateAction(RobotAction.kAlignShooting);
+                  } else {
+                    m_state.updateAction(RobotAction.kTeleopDefault);
+                  }
                 }));
   }
 
