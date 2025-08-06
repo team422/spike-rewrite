@@ -185,7 +185,7 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  if (m_state.getAction()!=RobotAction.kAmp) {
+                  if (m_state.getAction() != RobotAction.kAmp) {
                     m_state.updateAction(RobotAction.kAmp);
                   } else {
                     m_state.updateAction(RobotAction.kTeleopDefault);
@@ -196,7 +196,7 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  if(m_state.getAction()!=RobotAction.kAlignShooting){
+                  if (m_state.getAction() != RobotAction.kAlignShooting) {
                     m_state.updateAction(RobotAction.kAlignShooting);
                   } else {
                     m_state.updateAction(RobotAction.kTeleopDefault);

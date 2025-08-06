@@ -84,6 +84,10 @@ public class RobotState {
     m_profiles.getPeriodicFunctionTimed().run();
 
     Logger.recordOutput("PeriodicTime/RobotState", (HALUtil.getFPGATime() - start) / 1000.0);
+    Logger.recordOutput("Drive/State", m_drive.getCurrentProfile());
+    Logger.recordOutput("Shooter/State", m_shooter.getShooterState());
+    Logger.recordOutput("Indexer/State", m_indexer.getIndexerState());
+    Logger.recordOutput("Intake/State", m_intake.getIntakeState());
   }
 
   public void alignShootingPeriodic() {
@@ -173,7 +177,7 @@ public class RobotState {
     }
   }
 
-  public RobotAction getAction(){
+  public RobotAction getAction() {
     return m_profiles.getCurrentProfile();
   }
 }
