@@ -192,28 +192,28 @@ public class Constants {
     // sim
     public static final DCMotor kTopDCMotor = DCMotor.getNEO(1);
     public static final DCMotor kBottomDCMotor = DCMotor.getNEO(1);
-    public static final double kSimMOI = 10.0;
+    public static final double kSimMOI = 0.5;
     public static final double kSimGearing = 10.0;
 
     public static final LoggedTunableNumber kSimTopShooterP =
-        new LoggedTunableNumber("Shooter SimTopP", 0.0);
+        new LoggedTunableNumber("Shooter SimTopP", 1.2);
     public static final LoggedTunableNumber kSimTopShooterI =
-        new LoggedTunableNumber("Shooter SimTopI", 0.0);
+        new LoggedTunableNumber("Shooter SimTopI", 0.4);
     public static final LoggedTunableNumber kSimTopShooterD =
         new LoggedTunableNumber("Shooter SimTopD", 0.0);
     public static final LoggedTunableNumber kSimBottomShooterP =
-        new LoggedTunableNumber("Shooter SimBottomP", 0.0);
+        new LoggedTunableNumber("Shooter SimBottomP", 1.2);
     public static final LoggedTunableNumber kSimBottomShooterI =
-        new LoggedTunableNumber("Shooter SimBottomI", 0.0);
+        new LoggedTunableNumber("Shooter SimBottomI", 0.4);
     public static final LoggedTunableNumber kSimBottomShooterD =
         new LoggedTunableNumber("Shooter SimBottomD", 0.0);
 
     public static final LoggedTunableNumber kSimTopKs =
-        new LoggedTunableNumber("Shooter SimTopKs", 0.0);
+        new LoggedTunableNumber("Shooter SimTopKs", 0.25);
     public static final LoggedTunableNumber kSimTopKv =
         new LoggedTunableNumber("Shooter SimTopKv", 0.0);
     public static final LoggedTunableNumber kSimBottomKs =
-        new LoggedTunableNumber("Shooter SimBottomKs", 0.0);
+        new LoggedTunableNumber("Shooter SimBottomKs", 0.25);
     public static final LoggedTunableNumber kSimBottomKv =
         new LoggedTunableNumber("Shooter SimBottomKv", 0.0);
   }
@@ -222,15 +222,15 @@ public class Constants {
     public static final LoggedTunableNumber kIdleVoltage =
         new LoggedTunableNumber("Indexer idleVoltage", 0.0);
     public static final LoggedTunableNumber kIntakingVoltage =
-        new LoggedTunableNumber("Indexer intakingVoltage", 0.0);
+        new LoggedTunableNumber("Indexer intakingVoltage", 12.0);
     public static final LoggedTunableNumber kShootingVoltage =
-        new LoggedTunableNumber("Indexer shootingVoltage", 0.0);
+        new LoggedTunableNumber("Indexer shootingVoltage", 8.0);
     public static final LoggedTunableNumber kVomitVoltage =
-        new LoggedTunableNumber("Indexer vomitVoltage", 0.0);
+        new LoggedTunableNumber("Indexer vomitVoltage", -8.0);
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);
-    public static final double kSimMOI = 10.0;
+    public static final double kSimMOI = 0.001;
     public static final double kSimGearing = 10.0;
   }
 
@@ -238,13 +238,13 @@ public class Constants {
     public static final LoggedTunableNumber kIdleVoltage =
         new LoggedTunableNumber("Intake idleVoltage", 0.0);
     public static final LoggedTunableNumber kIntakingVoltage =
-        new LoggedTunableNumber("Intake intakingVoltage", 0.0);
+        new LoggedTunableNumber("Intake intakingVoltage", 10.0);
     public static final LoggedTunableNumber kVomitVoltage =
-        new LoggedTunableNumber("Intake vomitVoltage", 0.0);
+        new LoggedTunableNumber("Intake vomitVoltage", -8.0);
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);
-    public static final double kSimMOI = 10.0;
+    public static final double kSimMOI = 0.5;
     public static final double kSimGearing = 10.0;
   }
 

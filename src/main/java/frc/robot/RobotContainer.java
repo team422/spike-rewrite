@@ -164,7 +164,11 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  m_state.updateAction(RobotAction.kSubwooferShooting);
+                  if (m_state.getAction() != RobotAction.kSubwooferShooting) {
+                    m_state.updateAction(RobotAction.kSubwooferShooting);
+                  } else {
+                    m_state.updateAction(RobotAction.kTeleopDefault);
+                  }
                 }));
     m_controls
         .index()
@@ -196,8 +200,8 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  if (m_state.getAction() != RobotAction.kAlignShooting) {
-                    m_state.updateAction(RobotAction.kAlignShooting);
+                  if (m_state.getAction() != RobotAction.kAutoShooting) {
+                    m_state.updateAction(RobotAction.kAutoShooting);
                   } else {
                     m_state.updateAction(RobotAction.kTeleopDefault);
                   }

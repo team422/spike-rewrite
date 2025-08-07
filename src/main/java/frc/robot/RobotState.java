@@ -58,7 +58,7 @@ public class RobotState {
     periodicHash.put(RobotAction.kIntake, () -> {});
     periodicHash.put(RobotAction.kVomitting, () -> {});
     periodicHash.put(RobotAction.kAlignShooting, this::alignShootingPeriodic);
-    periodicHash.put(RobotAction.kSubwooferShooting, () -> {});
+    periodicHash.put(RobotAction.kSubwooferShooting, this::revPeriodic);
     periodicHash.put(RobotAction.kAmp, this::ampPeriodic);
 
     periodicHash.put(RobotAction.kAutoDefault, () -> {});
@@ -83,11 +83,18 @@ public class RobotState {
 
     m_profiles.getPeriodicFunctionTimed().run();
 
-    Logger.recordOutput("PeriodicTime/RobotState", (HALUtil.getFPGATime() - start) / 1000.0);
+    Logger.recordOutput("RobotState/currentAction", m_instance.getAction());
     Logger.recordOutput("Drive/State", m_drive.getCurrentProfile());
     Logger.recordOutput("Shooter/State", m_shooter.getShooterState());
     Logger.recordOutput("Indexer/State", m_indexer.getIndexerState());
     Logger.recordOutput("Intake/State", m_intake.getIntakeState());
+
+    Logger.recordOutput("PeriodicTime/RobotState", (HALUtil.getFPGATime() - start) / 1000.0);
+  }
+
+  public void revPeriodic() {
+    var speeds = ShooterMath.calculateSpeakerFlywheelSpeed(m_drive.getPose());
+    m_shooter.setVelocity(speeds.getFirst(), speeds.getSecond());
   }
 
   public void alignShootingPeriodic() {
