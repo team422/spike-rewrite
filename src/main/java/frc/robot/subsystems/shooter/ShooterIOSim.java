@@ -17,14 +17,14 @@ public class ShooterIOSim implements ShooterIO {
             LinearSystemId.createFlywheelSystem(
                 ShooterConstants.kTopDCMotor,
                 ShooterConstants.kSimMOI,
-                ShooterConstants.kSimGearing),
+                ShooterConstants.kSimTopGearing),
             ShooterConstants.kTopDCMotor);
     m_bottomSim =
         new FlywheelSim(
             LinearSystemId.createFlywheelSystem(
                 ShooterConstants.kBottomDCMotor,
                 ShooterConstants.kSimMOI,
-                ShooterConstants.kSimGearing),
+                ShooterConstants.kSimBottomGearing),
             ShooterConstants.kBottomDCMotor);
     m_topVoltage = 0.0;
     m_bottomVoltage = 0.0;
@@ -40,9 +40,9 @@ public class ShooterIOSim implements ShooterIO {
     inputs.topVoltage = m_topVoltage;
     inputs.bottomVoltage = m_bottomVoltage;
     inputs.topVelocityRPM =
-        Units.radiansPerSecondToRotationsPerMinute(m_topSim.getAngularVelocityRadPerSec());
+        Units.radiansPerSecondToRotationsPerMinute(m_topSim.getAngularVelocityRadPerSec()) / 60;
     inputs.bottomVelocityRPM =
-        Units.radiansPerSecondToRotationsPerMinute(m_bottomSim.getAngularVelocityRadPerSec());
+        Units.radiansPerSecondToRotationsPerMinute(m_bottomSim.getAngularVelocityRadPerSec()) / 60;
   }
 
   @Override

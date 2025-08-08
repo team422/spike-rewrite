@@ -157,7 +157,11 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  m_state.updateAction(RobotAction.kIntake);
+                  if (m_state.getAction() != RobotAction.kIntake) {
+                    m_state.updateAction(RobotAction.kIntake);
+                  } else {
+                    m_state.updateAction(RobotAction.kTeleopDefault);
+                  }
                 }));
     m_controls
         .rev()
@@ -182,7 +186,11 @@ public class RobotContainer {
         .onTrue(
             Commands.runOnce(
                 () -> {
-                  m_state.updateAction(RobotAction.kVomitting);
+                  if (m_state.getAction() != RobotAction.kVomitting) {
+                    m_state.updateAction(RobotAction.kVomitting);
+                  } else {
+                    m_state.updateAction(RobotAction.kTeleopDefault);
+                  }
                 }));
     m_controls
         .amp()

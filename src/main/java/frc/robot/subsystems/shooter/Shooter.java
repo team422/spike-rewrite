@@ -136,7 +136,7 @@ public class Shooter extends SubsystemBase {
           hashCode(),
           () -> {
             m_bottomFF.setKs(ShooterConstants.kSimBottomKs.getAsDouble());
-            m_bottomFF.setKv(ShooterConstants.kSimTopKv.getAsDouble());
+            m_bottomFF.setKv(ShooterConstants.kSimBottomKv.getAsDouble());
           },
           ShooterConstants.kSimBottomKs,
           ShooterConstants.kSimBottomKv);

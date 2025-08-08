@@ -21,7 +21,7 @@ public class ShooterMath {
    * @return The desired velocity of the top and bottom flywheel respectively
    */
   public static Pair<Double, Double> calculateSpeakerFlywheelSpeed(Pose2d pose) {
-    return Pair.of(120.0, 120.0);
+    return Pair.of(20.0, 85.0);
   }
 
   public static Rotation2d calculateSpeakerHeading(Pose2d pose) {

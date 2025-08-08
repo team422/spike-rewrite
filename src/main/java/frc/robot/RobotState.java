@@ -135,11 +135,13 @@ public class RobotState {
         break;
       case kAlignShooting:
       case kAutoShooting:
+        newIntakeState = IntakeState.kIdle;
         newDriveProfile = DriveProfiles.kAutoAlign;
         newShooterState = ShooterState.kRevving;
         break;
 
       case kSubwooferShooting:
+        newIntakeState = IntakeState.kIdle;
         newShooterState = ShooterState.kRevving;
         break;
 
@@ -157,6 +159,7 @@ public class RobotState {
       case kAmp:
         newDriveProfile = DriveProfiles.kAutoAlign;
         newShooterState = ShooterState.kAmp;
+        newIntakeState = IntakeState.kIdle;
         break;
     }
 
