@@ -1,6 +1,7 @@
 package frc.robot.subsystems.indexer;
 
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants.IndexerConstants;
@@ -29,7 +30,7 @@ public class IndexerIOSim implements IndexerIO {
 
     inputs.hasPiece = !m_sensor1.get() || !m_sensor2.get();
     inputs.voltage = m_voltage;
-    inputs.velocityRPM = m_sim.getAngularVelocityRadPerSec();
+    inputs.velocityRPM = Units.radiansPerSecondToRotationsPerMinute(m_sim.getAngularVelocityRadPerSec()) / 60;
   }
 
   @Override

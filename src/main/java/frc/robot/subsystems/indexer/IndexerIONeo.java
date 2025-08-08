@@ -28,7 +28,7 @@ public class IndexerIONeo implements IndexerIO {
   @Override
   public void updateInputs(IndexerInputs inputs) {
     inputs.voltage = m_motor.getBusVoltage() * m_motor.getAppliedOutput();
-    inputs.velocityRPM = m_encoder.getVelocity();
+    inputs.velocityRPM = m_encoder.getVelocity() / 60;
     inputs.hasPiece = !m_sensor1.get() || !m_sensor2.get();
     inputs.current = m_motor.getOutputCurrent();
     inputs.photoelectric1Raw = m_sensor1.get();

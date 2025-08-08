@@ -24,7 +24,7 @@ public class IntakeIOSim implements IntakeIO {
     m_sim.update(.02);
 
     inputs.velocityRPM =
-        Units.radiansPerSecondToRotationsPerMinute(m_sim.getAngularVelocityRadPerSec());
+        Units.radiansPerSecondToRotationsPerMinute(m_sim.getAngularVelocityRadPerSec()) / 60;
     inputs.voltage = m_voltage;
     inputs.current = m_sim.getCurrentDrawAmps();
     inputs.isMotorConnected = false;
