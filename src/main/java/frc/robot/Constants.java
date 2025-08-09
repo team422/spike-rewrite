@@ -266,16 +266,17 @@ public class Constants {
     public static final int kBackRightTurn = 10;
     public static final int kBackRightCancoder = 11;
 
-    public static final int kIndexer = 12;
-    public static final int kPhotoelectric1 = 13;
-    public static final int kPhotoelectric2 = 14;
-
-    public static final int kIntake = 15;
-
-    public static final int kTopShooter = 16;
-    public static final int kBottomShooter = 17;
-
     public static final int kPigeon = 22;
+
+    public static final String kCanivoreName = "Drivetrain";
+
+    public static final int kIntakeNeo = 3;
+    public static final int kIndexerNeo = 4;
+    public static final int kTopFlywheel = 5;
+    public static final int kBottomFlywheel = 6;
+
+    public static final int kPhotoElectricOne = 8;
+    public static final int kPhotoElectricTwo = 9;
 
     public static final String kDriveCanivoreName = "Drivetrain";
 

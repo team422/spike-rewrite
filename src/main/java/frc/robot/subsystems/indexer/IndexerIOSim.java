@@ -20,8 +20,8 @@ public class IndexerIOSim implements IndexerIO {
                 IndexerConstants.kDCMotor, IndexerConstants.kSimMOI, IndexerConstants.kSimGearing),
             IndexerConstants.kDCMotor);
     m_voltage = 0.0;
-    m_sensor1 = new DigitalInput(Ports.kPhotoelectric1);
-    m_sensor2 = new DigitalInput(Ports.kPhotoelectric2);
+    m_sensor1 = new DigitalInput(Ports.kPhotoElectricOne);
+    m_sensor2 = new DigitalInput(Ports.kPhotoElectricTwo);
   }
 
   public void updateInputs(IndexerInputs inputs) {
