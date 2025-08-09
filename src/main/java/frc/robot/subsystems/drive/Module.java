@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.lib.littletonUtils.LoggedTunableNumber;
 import frc.robot.Constants.DriveConstants;
 import org.littletonrobotics.junction.Logger;
 
@@ -59,6 +60,30 @@ public class Module {
       Rotation2d angle = m_inputs.odometryTurnPositions[i];
       m_odometryPositions[i] = new SwerveModulePosition(positionMeters, angle);
     }
+
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> {
+          m_io.setDrivePID(
+              DriveConstants.kDriveP.get(),
+              DriveConstants.kDriveI.get(),
+              DriveConstants.kDriveD.get());
+        },
+        DriveConstants.kDriveP,
+        DriveConstants.kDriveI,
+        DriveConstants.kDriveD);
+
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> {
+          m_io.setTurnPID(
+              DriveConstants.kHeadingP.get(),
+              DriveConstants.kHeadingI.get(),
+              DriveConstants.kHeadingD.get());
+        },
+        DriveConstants.kHeadingP,
+        DriveConstants.kHeadingI,
+        DriveConstants.kHeadingD);
   }
 
   /** Runs the module with the specified setpoint state. */

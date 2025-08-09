@@ -5,12 +5,12 @@ public final class BuildConstants {
   public static final String MAVEN_GROUP = "";
   public static final String MAVEN_NAME = "spike-rewrite";
   public static final String VERSION = "unspecified";
-  public static final int GIT_REVISION = 16;
-  public static final String GIT_SHA = "9ba8433388eab2b63d7dd107ad351a9c4f9a9c84";
-  public static final String GIT_DATE = "2025-08-08 20:43:27 EDT";
+  public static final int GIT_REVISION = 17;
+  public static final String GIT_SHA = "a26b0c97e6e47e4f1ae233b19ce35b9c9a4bc575";
+  public static final String GIT_DATE = "2025-08-09 13:53:32 EDT";
   public static final String GIT_BRANCH = "main";
-  public static final String BUILD_DATE = "2025-08-09 13:38:15 EDT";
-  public static final long BUILD_UNIX_TIME = 1754761095736L;
+  public static final String BUILD_DATE = "2025-08-09 15:33:16 EDT";
+  public static final long BUILD_UNIX_TIME = 1754767996461L;
   public static final int DIRTY = 1;
 
   private BuildConstants() {}
