@@ -55,7 +55,7 @@ public class RobotState {
     Map<RobotAction, Runnable> periodicHash = new HashMap<>();
 
     periodicHash.put(RobotAction.kTeleopDefault, () -> {});
-    periodicHash.put(RobotAction.kIntake, () -> {});
+    periodicHash.put(RobotAction.kIntake, this::intakingPeriodic);
     periodicHash.put(RobotAction.kVomitting, () -> {});
     periodicHash.put(RobotAction.kAlignShooting, this::alignShootingPeriodic);
     periodicHash.put(RobotAction.kSubwooferShooting, this::revPeriodic);
@@ -121,6 +121,12 @@ public class RobotState {
 
   public void ampPeriodic() {
     m_drive.setDesiredHeading(Rotation2d.fromDegrees(90));
+  }
+
+  public void intakingPeriodic() {
+    if (m_indexer.indexerHasGamePiece()) {
+      m_intake.updateState(IntakeState.kIdle);
+    }
   }
 
   public void updateAction(RobotAction action) {

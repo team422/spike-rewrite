@@ -67,4 +67,8 @@ public class Indexer extends SubsystemBase {
   public IndexerState getIndexerState() {
     return m_profiles.getCurrentProfile();
   }
+
+  public boolean indexerHasGamePiece() {
+    return m_inputs.hasPiece;
+  }
 }

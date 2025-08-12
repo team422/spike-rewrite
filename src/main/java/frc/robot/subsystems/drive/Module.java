@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.lib.littletonUtils.LoggedTunableNumber;
 import frc.robot.Constants.DriveConstants;
 import org.littletonrobotics.junction.Logger;
 
@@ -24,9 +25,11 @@ public class Module {
     // Switch constants based on mode (the physics simulator is treated as a
     // separate robot with different tuning)
     if (RobotBase.isReal()) {
-      m_driveFeedforward = new SimpleMotorFeedforward(0.22810, 0.13319);
-      m_io.setDrivePID(2.0, 0.0, 0.0);
-      m_io.setTurnPID(300.0, 0.0, 0.0);
+      m_driveFeedforward = new SimpleMotorFeedforward(0.22810, 0.23319);
+      m_io.setDrivePID(
+          DriveConstants.kDriveP.get(), DriveConstants.kDriveI.get(), DriveConstants.kDriveI.get());
+      m_io.setTurnPID(
+          DriveConstants.kTurnP.get(), DriveConstants.kTurnI.get(), DriveConstants.kTurnD.get());
     } else {
       m_driveFeedforward = new SimpleMotorFeedforward(0.0, 0.13);
       m_io.setDrivePID(0.1, 0.0, 0.0);
@@ -59,6 +62,30 @@ public class Module {
       Rotation2d angle = m_inputs.odometryTurnPositions[i];
       m_odometryPositions[i] = new SwerveModulePosition(positionMeters, angle);
     }
+
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> {
+          m_io.setDrivePID(
+              DriveConstants.kDriveP.get(),
+              DriveConstants.kDriveI.get(),
+              DriveConstants.kDriveD.get());
+        },
+        DriveConstants.kDriveP,
+        DriveConstants.kDriveI,
+        DriveConstants.kDriveD);
+
+    LoggedTunableNumber.ifChanged(
+        hashCode(),
+        () -> {
+          m_io.setTurnPID(
+              DriveConstants.kTurnP.get(),
+              DriveConstants.kTurnI.get(),
+              DriveConstants.kTurnD.get());
+        },
+        DriveConstants.kTurnP,
+        DriveConstants.kTurnI,
+        DriveConstants.kTurnD);
   }
 
   /** Runs the module with the specified setpoint state. */
@@ -102,7 +129,7 @@ public class Module {
 
   /** Returns the current turn angle of the module. */
   public Rotation2d getAngle() {
-    return m_inputs.turnPosition;
+    return m_inputs.turnAbsolutePosition;
   }
 
   /** Returns the current drive position of the module in meters. */

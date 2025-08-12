@@ -131,6 +131,14 @@ public class Constants {
     public static final LoggedTunableNumber kMeshDrivePriority =
         new LoggedTunableNumber("Meshed Drive Priority", 0.3);
 
+    public static final LoggedTunableNumber kDriveP = new LoggedTunableNumber("Drive P", 0.0);
+    public static final LoggedTunableNumber kDriveI = new LoggedTunableNumber("Drive I", 0.0);
+    public static final LoggedTunableNumber kDriveD = new LoggedTunableNumber("Drive D", 0.0);
+
+    public static final LoggedTunableNumber kTurnP = new LoggedTunableNumber("Drive Turn P", 3.0);
+    public static final LoggedTunableNumber kTurnI = new LoggedTunableNumber("Drive Turn I", 0.0);
+    public static final LoggedTunableNumber kTurnD = new LoggedTunableNumber("Drive Turn D", 0.0);
+
     public static final LoggedTunableNumber kAutoscoreDeployDistance =
         new LoggedTunableNumber("Autoscore Deploy Distance", 42.0);
     public static final LoggedTunableNumber kAutoscoreOuttakeDistance =
@@ -157,37 +165,38 @@ public class Constants {
     public static final LoggedTunableNumber kIdleVoltage =
         new LoggedTunableNumber("Shooter idleVoltage", 0.0);
     public static final LoggedTunableNumber kTopRPS =
-        new LoggedTunableNumber("Shooter topRPM", 20.0);
+        new LoggedTunableNumber("Shooter topRPS", 20.0);
     public static final LoggedTunableNumber kBottomRPS =
-        new LoggedTunableNumber("Shooter bottomRPM", 85.0);
+        new LoggedTunableNumber("Shooter bottomRPS", 85.0);
     public static final LoggedTunableNumber kRejectingVoltage =
-        new LoggedTunableNumber("Shooter rejectingVoltage", 7.0);
+        new LoggedTunableNumber("Shooter rejectingVoltage", 4.0);
     public static final LoggedTunableNumber kTopAmpVelocity =
         new LoggedTunableNumber("Shooter topAmpVelocity", -3.5);
     public static final LoggedTunableNumber kBottomAmpVelocity =
         new LoggedTunableNumber("Shooter bottomAmpVelocity", 58.0);
 
     public static final LoggedTunableNumber kTopShooterP =
-        new LoggedTunableNumber("Shooter TopP", 0.0);
+        new LoggedTunableNumber("Shooter TopP", 0.005);
     public static final LoggedTunableNumber kTopShooterI =
         new LoggedTunableNumber("Shooter TopI", 0.0);
     public static final LoggedTunableNumber kTopShooterD =
         new LoggedTunableNumber("Shooter TopD", 0.0);
     public static final LoggedTunableNumber kBottomShooterP =
-        new LoggedTunableNumber("Shooter BottomP", 0.0);
+        new LoggedTunableNumber("Shooter BottomP", 0.005);
     public static final LoggedTunableNumber kBottomShooterI =
         new LoggedTunableNumber("Shooter BottomI", 0.0);
     public static final LoggedTunableNumber kBottomShooterD =
         new LoggedTunableNumber("Shooter BottomD", 0.0);
 
-    public static final LoggedTunableNumber kTopKs = new LoggedTunableNumber("Shooter TopKs", 0.0);
-    public static final LoggedTunableNumber kTopKv = new LoggedTunableNumber("Shooter TopKv", 0.0);
+    public static final LoggedTunableNumber kTopKs = new LoggedTunableNumber("Shooter TopKs", 0.14);
+    public static final LoggedTunableNumber kTopKv =
+        new LoggedTunableNumber("Shooter TopKv", 0.125);
     public static final LoggedTunableNumber kBottomKs =
-        new LoggedTunableNumber("Shooter BottomKs", 0.0);
+        new LoggedTunableNumber("Shooter BottomKs", 0.14);
     public static final LoggedTunableNumber kBottomKv =
-        new LoggedTunableNumber("Shooter BottomKv", 0.0);
+        new LoggedTunableNumber("Shooter BottomKv", 0.125);
 
-    public static final double kVelocityTolerance = 0.1; // in RPM
+    public static final double kVelocityTolerance = 0.1;
 
     // sim
     public static final DCMotor kTopDCMotor = DCMotor.getNEO(1);
@@ -223,11 +232,11 @@ public class Constants {
     public static final LoggedTunableNumber kIdleVoltage =
         new LoggedTunableNumber("Indexer idleVoltage", 0.0);
     public static final LoggedTunableNumber kIntakingVoltage =
-        new LoggedTunableNumber("Indexer intakingVoltage", 12.0);
+        new LoggedTunableNumber("Indexer intakingVoltage", -6.0);
     public static final LoggedTunableNumber kShootingVoltage =
-        new LoggedTunableNumber("Indexer shootingVoltage", 8.0);
+        new LoggedTunableNumber("Indexer shootingVoltage", -8.0);
     public static final LoggedTunableNumber kVomitVoltage =
-        new LoggedTunableNumber("Indexer vomitVoltage", -8.0);
+        new LoggedTunableNumber("Indexer vomitVoltage", 6.0);
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);
@@ -239,9 +248,9 @@ public class Constants {
     public static final LoggedTunableNumber kIdleVoltage =
         new LoggedTunableNumber("Intake idleVoltage", 0.0);
     public static final LoggedTunableNumber kIntakingVoltage =
-        new LoggedTunableNumber("Intake intakingVoltage", 10.0);
+        new LoggedTunableNumber("Intake intakingVoltage", -6.0);
     public static final LoggedTunableNumber kVomitVoltage =
-        new LoggedTunableNumber("Intake vomitVoltage", -8.0);
+        new LoggedTunableNumber("Intake vomitVoltage", 7.0);
 
     // sim
     public static final DCMotor kDCMotor = DCMotor.getNEO(1);
@@ -250,32 +259,33 @@ public class Constants {
   }
 
   public static final class Ports {
-    public static final int kFrontLeftDrive = 0;
-    public static final int kFrontLeftTurn = 1;
-    public static final int kFrontLeftCancoder = 2;
+    public static final int kFrontLeftDrive = 1;
+    public static final int kFrontLeftTurn = 2;
+    public static final int kFrontLeftCancoder = 3;
 
-    public static final int kFrontRightDrive = 3;
-    public static final int kFrontRightTurn = 4;
-    public static final int kFrontRightCancoder = 5;
+    public static final int kFrontRightDrive = 4;
+    public static final int kFrontRightTurn = 5;
+    public static final int kFrontRightCancoder = 6;
 
-    public static final int kBackLeftDrive = 6;
-    public static final int kBackLeftTurn = 7;
-    public static final int kBackLeftCancoder = 8;
+    public static final int kBackLeftDrive = 7;
+    public static final int kBackLeftTurn = 8;
+    public static final int kBackLeftCancoder = 9;
 
-    public static final int kBackRightDrive = 9;
-    public static final int kBackRightTurn = 10;
-    public static final int kBackRightCancoder = 11;
-
-    public static final int kIndexer = 12;
-    public static final int kPhotoelectric1 = 13;
-    public static final int kPhotoelectric2 = 14;
-
-    public static final int kIntake = 15;
-
-    public static final int kTopShooter = 16;
-    public static final int kBottomShooter = 17;
+    public static final int kBackRightDrive = 10;
+    public static final int kBackRightTurn = 11;
+    public static final int kBackRightCancoder = 12;
 
     public static final int kPigeon = 22;
+
+    public static final String kCanivoreName = "Drivetrain";
+
+    public static final int kIntakeNeo = 13;
+    public static final int kIndexerNeo = 14;
+    public static final int kTopFlywheel = 15;
+    public static final int kBottomFlywheel = 16;
+
+    public static final int kPhotoElectricOne = 8;
+    public static final int kPhotoElectricTwo = 9;
 
     public static final String kDriveCanivoreName = "Drivetrain";
 

@@ -13,6 +13,8 @@
 
 package frc.robot.subsystems.drive;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Revolutions;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -33,6 +35,7 @@ import com.revrobotics.spark.config.SignalsConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Angle;
@@ -40,6 +43,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.Ports;
 import java.util.OptionalDouble;
 import java.util.Queue;
+import org.littletonrobotics.junction.Logger;
 
 /**
  * Module IO implementation for SparkMax drive motor controller, SparkMax turn motor controller (NEO
@@ -65,13 +69,19 @@ public class ModuleIOSparkMax implements ModuleIO {
   private final Queue<Double> m_drivePositionQueue;
   private final Queue<Double> m_turnPositionQueue;
 
-  private StatusSignal<Angle> m_turnAbsolutePosition;
+  private final StatusSignal<Angle> m_turnAbsolutePosition;
 
   private final boolean m_isTurnMotorInverted = true;
   private final Rotation2d m_absoluteEncoderOffset;
 
   private final SparkBaseConfig m_driveConfig;
   private final SparkBaseConfig m_turnConfig;
+
+  private final PIDController m_turnController = new PIDController(0, 0, 0);
+
+  {
+    m_turnController.enableContinuousInput(-Math.PI, Math.PI);
+  }
 
   public ModuleIOSparkMax(int index) {
     switch (index) {
@@ -230,9 +240,11 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   @Override
   public void setTurnPosition(Rotation2d position) {
-    m_turnSparkMax
-        .getClosedLoopController()
-        .setReference(position.getMeasure().in(Revolutions), ControlType.kPosition);
+    Logger.recordOutput("Setpoint/positionTurn", position.getDegrees());
+    Logger.recordOutput("Setpoint/CancoderAngle", m_turnAbsolutePosition.getValue().in(Degrees));
+    m_turnSparkMax.setVoltage(
+        m_turnController.calculate(
+            m_turnAbsolutePosition.getValue().in(Radians), position.getRadians()));
   }
 
   @Override
@@ -270,9 +282,7 @@ public class ModuleIOSparkMax implements ModuleIO {
 
   @Override
   public void setTurnPID(double kP, double kI, double kD) {
-    m_turnConfig.closedLoop.pid(kP, kI, kD);
-    m_turnSparkMax.configure(
-        m_turnConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    m_turnController.setPID(kP, kI, kD);
   }
 
   @Override

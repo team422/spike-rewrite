@@ -62,11 +62,12 @@ public class RobotContainer {
                 new ModuleIOSparkMax(3));
         m_indexer =
             new Indexer(
-                new IndexerIONeo(Ports.kIndexer, Ports.kPhotoelectric1, Ports.kPhotoelectric2));
-        m_intake = new Intake(new IntakeIONeo(Ports.kIntake));
+                new IndexerIONeo(
+                    Ports.kIndexerNeo, Ports.kPhotoElectricOne, Ports.kPhotoElectricTwo));
+        m_intake = new Intake(new IntakeIONeo(Ports.kIntakeNeo));
         m_shooter =
             new Shooter(
-                new ShooterIONeo(Ports.kTopShooter, Ports.kBottomShooter),
+                new ShooterIONeo(Ports.kTopFlywheel, Ports.kBottomFlywheel),
                 new PIDController(
                     ShooterConstants.kTopShooterP.getAsDouble(),
                     ShooterConstants.kTopShooterI.getAsDouble(),

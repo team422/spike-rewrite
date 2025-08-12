@@ -41,8 +41,8 @@ public class ShooterIONeo implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterInputs inputs) {
-    inputs.topVelocityRPM = m_topCoder.getVelocity() / 60;
-    inputs.bottomVelocityRPM = m_bottomCoder.getVelocity() / 60;
+    inputs.topVelocityRPS = m_topCoder.getVelocity() / 60;
+    inputs.bottomVelocityRPS = m_bottomCoder.getVelocity() / 60;
     inputs.topVoltage = m_topWheel.getBusVoltage() * m_topWheel.getAppliedOutput();
     inputs.bottomVoltage = m_bottomWheel.getBusVoltage() * m_bottomWheel.getAppliedOutput();
     inputs.topCurrent = m_topWheel.getOutputCurrent();

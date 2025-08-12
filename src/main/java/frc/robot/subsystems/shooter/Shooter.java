@@ -94,7 +94,7 @@ public class Shooter extends SubsystemBase {
           hashCode(),
           () -> {
             m_bottomFF.setKs(ShooterConstants.kBottomKs.getAsDouble());
-            m_bottomFF.setKv(ShooterConstants.kTopKv.getAsDouble());
+            m_bottomFF.setKv(ShooterConstants.kBottomKv.getAsDouble());
           },
           ShooterConstants.kBottomKs,
           ShooterConstants.kBottomKv);
@@ -149,12 +149,14 @@ public class Shooter extends SubsystemBase {
 
   public void revvingPeriodic() {
     double topVoltage =
-        m_topController.calculate(m_inputs.topVelocityRPM)
+        m_topController.calculate(m_inputs.topVelocityRPS)
             + m_topFF.calculate(m_topController.getSetpoint());
     double bottomVoltage =
-        m_bottomController.calculate(m_inputs.bottomVelocityRPM)
+        m_bottomController.calculate(m_inputs.bottomVelocityRPS)
             + m_bottomFF.calculate(m_bottomController.getSetpoint());
 
+    Logger.recordOutput("Shooter/TopDesiredVelocity", m_topController.getSetpoint());
+    Logger.recordOutput("Shooter/BottomDesiredVelocity", m_bottomController.getSetpoint());
     m_io.setVoltage(topVoltage, bottomVoltage);
   }
 
@@ -182,8 +184,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean withinTolerance() {
-    double top = Math.abs(m_inputs.topVelocityRPM - m_topController.getSetpoint());
-    double bottom = Math.abs(m_inputs.bottomVelocityRPM - m_bottomController.getSetpoint());
+    double top = Math.abs(m_inputs.topVelocityRPS - m_topController.getSetpoint());
+    double bottom = Math.abs(m_inputs.bottomVelocityRPS - m_bottomController.getSetpoint());
     return top < ShooterConstants.kVelocityTolerance
         && bottom < ShooterConstants.kVelocityTolerance;
   }
