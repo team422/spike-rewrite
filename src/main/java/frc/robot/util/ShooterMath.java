@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.lib.littletonUtils.AllianceFlipUtil;
 import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class ShooterMath {
   // this cannot not get instantiated
@@ -21,7 +22,7 @@ public class ShooterMath {
    * @return The desired velocity of the top and bottom flywheel respectively
    */
   public static Pair<Double, Double> calculateSpeakerFlywheelSpeed(Pose2d pose) {
-    return Pair.of(20.0, 30.0);
+    return Pair.of(ShooterConstants.kTopSpeed.get(), ShooterConstants.kBottomSpeed.get());
   }
 
   public static Rotation2d calculateSpeakerHeading(Pose2d pose) {

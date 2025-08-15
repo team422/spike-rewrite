@@ -232,7 +232,8 @@ public class ModuleIOSparkMax implements ModuleIO {
     m_driveSparkMax
         .getClosedLoopController()
         .setReference(
-            Units.radiansPerSecondToRotationsPerMinute(velocityRadPerSec),
+            Units.radiansPerSecondToRotationsPerMinute(
+                velocityRadPerSec * DriveConstants.kDriveMultiplier.get()),
             ControlType.kVelocity,
             ClosedLoopSlot.kSlot0,
             feedforward);

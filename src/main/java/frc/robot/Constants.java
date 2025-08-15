@@ -78,6 +78,9 @@ public class Constants {
 
     public static final double kAutoAlignTolerance = 2.0;
 
+    public static final LoggedTunableNumber kDriveMultiplier =
+        new LoggedTunableNumber("Drive multiplier", 0.5);
+
     // Simulation constants
     public static final double kDriveSimGearRatio = kDriveGearRatio;
     public static final double kDriveSimMOI = 0.025;
@@ -197,6 +200,11 @@ public class Constants {
         new LoggedTunableNumber("Shooter BottomKv", 0.125);
 
     public static final double kVelocityTolerance = 0.1;
+
+    public static final LoggedTunableNumber kTopSpeed =
+        new LoggedTunableNumber("Shooter topSpeed", 30.0);
+    public static final LoggedTunableNumber kBottomSpeed =
+        new LoggedTunableNumber("Shooter bottomSpeed", 30.0);
 
     // sim
     public static final DCMotor kTopDCMotor = DCMotor.getNEO(1);
