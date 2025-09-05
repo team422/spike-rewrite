@@ -155,7 +155,7 @@ public class Drive extends SubsystemBase {
 
     m_driveController.setTolerance(Units.inchesToMeters(0.5));
     m_autoDriveController.setTolerance(Units.inchesToMeters(0.5));
-    m_headingController.setTolerance(Units.degreesToRadians(1));
+    m_headingController.setTolerance(Units.degreesToRadians(5));
   }
 
   @Override

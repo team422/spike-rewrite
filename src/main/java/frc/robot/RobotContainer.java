@@ -6,6 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.Ports;
@@ -153,6 +155,15 @@ public class RobotContainer {
     m_drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             m_drive, m_controls::getForward, m_controls::getStrafe, m_controls::getTurn, false));
+
+    m_controls
+        .resetFieldCentric()
+        .onTrue(
+            Commands.runOnce(
+                () ->
+                    m_drive.setPose(
+                        new Pose2d(m_drive.getPose().getTranslation(), new Rotation2d()))));
+
     m_controls
         .intake()
         .onTrue(

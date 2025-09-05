@@ -26,6 +26,11 @@ public class DriverControlsXbox implements DriverControls {
   }
 
   @Override
+  public Trigger resetFieldCentric() {
+    return m_controller.start();
+  }
+
+  @Override
   public Trigger intake() {
     return m_controller.rightTrigger();
   }
